@@ -1,0 +1,147 @@
+{
+    "name" : "爱豆圈子",
+    "appid" : "__UNI__9BBB723",
+    "description" : "",
+    "versionName" : "0.0.213",
+    "versionCode" : "",
+    "transformPx" : false,
+    /* 5+App特有相关 */
+    "app-plus" : {
+        "usingComponents" : true,
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
+        /* 模块配置 */
+        "modules" : {
+            "Payment" : {},
+            "Share" : {},
+            "OAuth" : {},
+            "VideoPlayer" : {}
+        },
+        /* 应用发布信息 */
+        "distribute" : {
+            /* android打包配置 */
+            "android" : {
+                "permissions" : []
+            },
+            /* ios打包配置 */
+            "ios" : {
+                "privacyDescription" : {
+                    "NSPhotoLibraryUsageDescription" : "从相册中选择图片作为用户的头像",
+                    "NSCameraUsageDescription" : "获取相片作为用户的头像"
+                }
+            },
+            /* SDK配置 */
+            "sdkConfigs" : {
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wx97a835226b9b8d6c",
+                        "appsecret" : "5cea5855e3837b0102f9faa898a1c340",
+                        "UniversalLinks" : "https://idolzone.cyoor.com/"
+                    }
+                },
+                "maps" : {},
+                "payment" : {
+                    "weixin" : {
+                        "appid" : "wx97a835226b9b8d6c",
+                        "UniversalLinks" : "https://idolzone.cyoor.com/"
+                    }
+                },
+                "push" : {},
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wx97a835226b9b8d6c",
+                        "UniversalLinks" : "https://idolzone.cyoor.com/"
+                    }
+                },
+                "speech" : {}
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "iphone" : {
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    }
+                }
+            }
+        }
+    },
+    /* 快应用特有相关 */
+    "quickapp" : {},
+    /* 小程序特有相关 */
+    "mp-weixin" : {
+        "appid" : "wxda41eeedd1b0baac",
+        "setting" : {
+            "urlCheck" : true,
+            "es6" : true,
+            "minified" : true,
+            "postcss" : true
+        },
+        "usingComponents" : true,
+        "navigateToMiniProgramAppIdList" : []
+    },
+    "mp-alipay" : {
+        "usingComponents" : true
+    },
+    "mp-baidu" : {
+        "usingComponents" : true
+    },
+    "mp-toutiao" : {
+        "usingComponents" : true
+    },
+    "h5" : {
+        "title" : "爱豆圈子",
+        "router" : {
+            "mode" : "hash"
+        },
+        "devServer" : {
+            "https" : false
+        },
+        "template" : "index.html",
+        "domain" : "idolzone.cyoor.com"
+    },
+    "mp-qq" : {
+        "appid" : "1109953774",
+        "setting" : {
+            "urlCheck" : true,
+            "es6" : true,
+            "minified" : true,
+            "postcss" : true
+        },
+        "usingComponents" : true,
+        "navigateToMiniProgramAppIdList" : [
+            "1109694099", //最美偶像
+            "1109702612", //我们的偶像
+            "1109771368", //超级明星榜
+            "1109771378", //爱豆庄园
+            "1110245390" //爱豆星球
+        ]
+    }
+}

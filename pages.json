@@ -1,0 +1,90 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// 首页
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "贝壳零花钱"
+			}
+		},
+		{
+			"path": "pages/index/rank",
+			"style": {
+				"navigationBarTitleText": "排行"
+			}
+		}, {
+			"path": "pages/user/user",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		},
+		{
+			"path": "pages/user/log",
+			"style": {
+				"navigationBarTitleText": "记录明细"
+			}
+		},
+		{
+			"path": "pages/user/setting",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/ad/custom",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}
+        ,{
+            "path" : "pages/index/index",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/user/user",
+            "style" : {}
+        }
+    ],
+	"tabBar": {
+		"color": "#aaaaaa",
+		"selectedColor": "#fbcc3e",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "/static/image/tab/rank.png",
+				"selectedIconPath": "/static/image/tab/rank-tap.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/farm/farm",
+				"iconPath": "/static/image/tab/farm.png",
+				"selectedIconPath": "/static/image/tab/farm-tap.png",
+				"text": "裂变"
+			}, {
+				"pagePath": "pages/group/group",
+				"iconPath": "/static/image/tab/group.png",
+				"selectedIconPath": "/static/image/tab/rank-tap.png",
+				"text": "排行"
+			},
+			{
+				"pagePath": "pages/user/user",
+				"iconPath": "/static/image/tab/user.png",
+				"selectedIconPath": "/static/image/tab/user-tap.png",
+				"text": "我的"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "爱豆圈子",
+		"navigationBarBackgroundColor": "#fbcc3e",
+		"backgroundColor": "#F8F8F8",
+		"onReachBottomDistance": 300
+			// #ifdef H5
+			,
+		"navigationStyle": "custom"
+		// #endif
+
+	}
+}
