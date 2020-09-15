@@ -88,6 +88,21 @@ input {
 	justify-content: center;
 }
 
+.space-between{
+	display: flex; 
+	justify-content: space-between;
+}
+
+.space-around{
+	display: flex; 
+	justify-content: space-around;
+}
+
+.wrap{
+	display: flex; 
+	flex-wrap: wrap;
+}
+
 /* 元素居中,父元素需加定位 */
 .position-set {
 	position: absolute;
