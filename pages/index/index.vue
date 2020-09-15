@@ -1,8 +1,27 @@
 <template>
 	<view class="lottery-container">
+		<view :style="'height:'+header+';width:100%;'"></view>
+		<view class="navigationBar flex-set">贝壳零花钱</view>
 		<view class="top-container">
 			<view class="lotter-danmu">
-				弹幕哈哈哈哈哈哈哈哈哈哈或
+				<image class="trumpet" src="/static/image/lottery/trumpet.png" mode="aspectFill"></image>
+				<view class="get-danmu">
+					<swiper class="small" autoplay interval="3000" vertical circular>
+						<swiper-item class="swiper-item">
+							<view class="item-text">
+								恭喜<text>哈哈哈</text>刚刚抽中了<text>嘿嘿嘿</text>
+							</view>
+						</swiper-item>
+						<swiper-item class="swiper-item">
+							<view class="item-text">
+								恭喜<text>哈滚滚滚哈哈</text>刚刚抽中了<text>嘿嘿斤斤计较嘿</text>
+							</view>
+						</swiper-item>
+					
+					</swiper>
+					<!-- <image src="/static/image/guild/quanzi_icon_lingdang.png" mode="widthFix"></image>恭喜<text>小仙女</text>加入<text>肖战</text>公会 -->
+				</view>
+				
 			</view>
 			<view class="lotter-rule" @tap="modal='rule'">规则说明</view>
 		</view>
@@ -74,8 +93,7 @@
 			</view>
 		</view>
 		<modalComponent v-if="modal == 'rule'" type="center" title="抽奖规则" @closeModal="modal=''">
-			<!-- <view style="height: 500rpx;">规则说明</view> -->
-			<view class="explain-container">
+			<view class="explain-container" style="color: #000000;">
 				<view class="explain-top">
 					<view class="explain-rule">抽奖规则</view>
 				</view>
@@ -106,6 +124,7 @@
 		},
 		data() {
 			return {
+				header: '',
 				modal: '',
 				lottery_value: 0, //幸运值
 				lottery_times: 0, //已抽奖次数
@@ -127,7 +146,7 @@
 			};
 		},
 		onLoad() {
-
+			this.header = uni.getSystemInfoSync()['statusBarHeight'] + 'px'
 		},
 		onShow() {
 			this.getLotter();
@@ -272,7 +291,18 @@
 
 <style lang="scss" scoped>
 	.lottery-container {
-		height: 100%;
+		min-height: 100%;
+		background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E6PCGc2OHpnROtW32Yh9zQFiadSVefaUhy1R7icJztmUmHDY2Is4C8DZ1qMGxJR9Njjupz4CficreaQ/0);
+		background-size: 100% 100%;
+		color: #FFFFFF;
+
+		.navigationBar {
+			font-size: 32rpx;
+			font-weight: bold;
+			padding: 30rpx 0rpx 30rpx 0rpx;
+			width: 100%;
+		}
+
 
 		.top-container {
 			display: flex;
@@ -280,14 +310,42 @@
 			padding: 20rpx 0;
 
 			.lotter-danmu {
+				height: 50rpx;
 				display: flex;
 				flex: 1 0%;
+				background: linear-gradient(90deg, #D807CA, #3E2378);
+				margin-right: 60rpx;
+				flex-direction: row;
+				
+				.trumpet {
+					width: 40rpx;
+					height: 40rpx;
+					padding: 5rpx;
+					margin: 5rpx 10rpx;
+				}
+				.get-danmu{
+					flex: 1 0%;
+					overflow: hidden;
+					.swiper-item{
+						width: 100%;
+						display: flex;
+						flex-direction: row;
+						.item-text{
+							width: 100%;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space: nowrap;
+						}
+						text {
+						}
+					}
+				}
 			}
 
 			.lotter-rule {
 				width: 140rpx;
 				height: 50rpx;
-				background: linear-gradient(270deg, rgba(255, 136, 109, 1) 0%, rgba(255, 52, 137, 1) 100%);
+				background: linear-gradient(90deg, #D807CA, #3E2378);
 				font-size: 24rpx;
 				border-top-left-radius: 30rpx;
 				border-bottom-left-radius: 30rpx;
@@ -322,6 +380,7 @@
 
 				.text {
 					padding: 10rpx 0;
+					font-weight: bold;
 				}
 			}
 		}
@@ -334,8 +393,8 @@
 
 			.lottery-turn {
 				width: 95%;
-				height: 650rpx;
-				background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FNdUlugiazOlxbYovfK8529qyUehuKsAcf1oSsb0VmibTltL4JNv300M1r5D3UWOKw8NykebdoOn4Q/0);
+				height: 600rpx;
+				background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E6PCGc2OHpnROtW32Yh9zQbls8ApU8Bnb8v4PqmkFDYHQFWL6I05EQibEkoARX835iaZAue78w8nuQ/0);
 				background-repeat: no-repeat;
 				background-size: 100% 100%;
 				padding: 40rpx;
@@ -382,7 +441,7 @@
 
 				.lotter-turn-list:nth-child(4),
 					{
-					transform: translate(238%, 0%);
+					transform: translate(239.5%, -9%);
 
 					image {
 						width: 100rpx
@@ -394,7 +453,7 @@
 				}
 
 				.lotter-turn-list:nth-child(5) {
-					transform: translate(119%, 135%);
+					transform: translate(120.5%, 108%);
 
 					image {
 						width: 100rpx
@@ -406,7 +465,7 @@
 				}
 
 				.lotter-turn-list:nth-child(6) {
-					transform: translate(-119%, 136%);
+					transform: translate(-119%, 109%);
 
 					image {
 						width: 100rpx
@@ -418,7 +477,7 @@
 				}
 
 				.lotter-turn-list:nth-child(7) {
-					transform: translate(-59%, 1%);
+					transform: translate(-59%, -16%);
 
 					image {
 						width: 100rpx
@@ -446,13 +505,13 @@
 
 			.lottery-value {
 				position: absolute;
-				top: 39.5%;
-				left: 39.5%;
-				background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FNdUlugiazOlxbYovfK8529ktSyYHMndDxowdnMjZuibIHbjVGU79qNYsm4wajcbNUKdBzcSJW6WEA/0);
+				top: 37%;
+				left: 40%;
+				background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E6PCGc2OHpnROtW32Yh9zQ6PlFRxvWaLquIn0kJFpQmcnP6eI43grq9gNo6Xdlzs5cgGuiaXvIpkg/0);
 				background-repeat: no-repeat;
 				background-size: 100% 100%;
-				width: 160rpx;
-				height: 160rpx;
+				width: 150rpx;
+				height: 150rpx;
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: center;
