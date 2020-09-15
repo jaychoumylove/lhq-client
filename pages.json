@@ -48,6 +48,12 @@
             	"navigationBarTitleText": "我的二维码"
             }
         }
+        ,{
+            "path" : "pages/user/account",
+            "style": {
+            	"navigationBarTitleText": "我的钱包"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

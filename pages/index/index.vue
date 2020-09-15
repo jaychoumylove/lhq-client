@@ -149,10 +149,10 @@
 			this.header = uni.getSystemInfoSync()['statusBarHeight'] + 'px'
 		},
 		onShow() {
-			this.getLotter();
-			this.getBox();
-			this.addCount();
-			this.getLog();
+			// this.getLotter();
+			// this.getBox();
+			// this.addCount();
+			// this.getLog();
 		},
 		methods: {
 			getLotter() {
