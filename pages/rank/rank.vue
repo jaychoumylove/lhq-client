@@ -12,7 +12,6 @@
 			</view>
 		</view>
 
-
 		<!-- 列表 -->
 		<view class="list-container">
 			<view class="item">

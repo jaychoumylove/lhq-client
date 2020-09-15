@@ -8,7 +8,7 @@
 			}
 		},
 		{
-			"path": "pages/index/rank",
+			"path": "pages/rank/rank",
 			"style": {
 				"navigationBarTitleText": "排行"
 			}
@@ -39,7 +39,7 @@
 		{
 			"path": "pages/recommend/list",
 			"style": {
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "裂变"
 			}
 		}
     ],
@@ -60,7 +60,7 @@
 				"selectedIconPath": "/static/image/tab/farm-tap.png",
 				"text": "裂变"
 			}, {
-				"pagePath": "pages/index/rank",
+				"pagePath": "pages/rank/rank",
 				"iconPath": "/static/image/tab/group.png",
 				"selectedIconPath": "/static/image/tab/rank-tap.png",
 				"text": "排行"
