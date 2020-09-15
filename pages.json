@@ -42,6 +42,12 @@
 				"navigationBarTitleText": "裂变"
 			}
 		}
+        ,{
+            "path" : "pages/user/ewm",
+            "style": {
+            	"navigationBarTitleText": "我的二维码"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",

@@ -30,19 +30,19 @@
 		</view>
 		
 		<view class="function-container-list">
-			<view class="list-item" v-if="$app.getData('config').version != $app.getData('VERSION')" @tap="copy()">
+			<view class="list-item" v-if="$app.getData('config').version != $app.getData('VERSION')" @tap="$app.goPage('/pages/user/account')">
 				<view class="left-wrap">
 					<view class="text">我的钱包</view>
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
-			<view class="list-item" @tap="$app.goPage('/pages/game/game?type=1')" v-if="$app.getData('config').version != $app.getData('VERSION')">
+			<view class="list-item" v-if="$app.getData('config').version != $app.getData('VERSION')">
 				<view class="left-wrap">
 					<view class="text">我的积分</view>
 				</view>
-				<view class="right-wrap iconfont iconjiantou"></view>
+				<view class="right-wrap iconfont">0000</view>
 			</view>
-			<view class="list-item" @tap="$app.goPage('/pages/game/game?type=1')" v-if="$app.getData('config').version != $app.getData('VERSION')">
+			<view class="list-item" @tap="$app.goPage('/pages/user/ewm')" v-if="$app.getData('config').version != $app.getData('VERSION')">
 				<view class="left-wrap">
 					<view class="text">我的专属二维码</view>
 				</view>
