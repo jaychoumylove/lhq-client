@@ -25,9 +25,6 @@
 			this.optionHandle(option)
 			// 请求数据
 			this.loadData(option)
-
-			// 连接socket
-			this.$app.invokeSocket()
 		},
 		methods: {
 			/**平台判断*/
@@ -39,19 +36,6 @@
 				// QQ小程序
 				// #ifdef MP-QQ
 				this.$app.setData('platform', 'MP-QQ')
-				// #endif
-				// APP
-				// #ifdef APP-PLUS
-				this.$app.setData('platform', 'APP')
-				// #endif
-				// 微信H5
-				// #ifdef H5
-				var ua = window.navigator.userAgent.toLowerCase();
-				if (~ua.indexOf('micromessenger')) {
-					this.$app.setData('platform', 'H5')
-				} else {
-					this.$app.setData('platform', 'H5-OTHER')
-				}
 				// #endif
 			},
 			/**处理option参数*/
@@ -72,11 +56,6 @@
 					referrer: this.$app.getData('referrer'),
 					scene: this.$app.getData('enterScene')
 				}, res => {
-					this.$app.setData('userInfo', res.data.userInfo)
-					this.$app.setData('userCurrency', res.data.userCurrency)
-					this.$app.setData('userStar', res.data.userStar)
-					this.$app.setData('userExt', res.data.userExt)
-
 					this.$app.setData('config', res.data.config)
 				})
 			},

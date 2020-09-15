@@ -1,5 +1,5 @@
 {
-    "name" : "爱豆圈子",
+    "name" : "贝壳零花钱",
     "appid" : "__UNI__9BBB723",
     "description" : "",
     "versionName" : "0.0.213",
@@ -38,22 +38,22 @@
             "sdkConfigs" : {
                 "oauth" : {
                     "weixin" : {
-                        "appid" : "wx97a835226b9b8d6c",
-                        "appsecret" : "5cea5855e3837b0102f9faa898a1c340",
+                        "appid" : "wxda41eeedd1b0baac",
+                        "appsecret" : "afc7f4751e43aa3ce38cee05a7344598",
                         "UniversalLinks" : "https://idolzone.cyoor.com/"
                     }
                 },
                 "maps" : {},
                 "payment" : {
                     "weixin" : {
-                        "appid" : "wx97a835226b9b8d6c",
+                        "appid" : "wxda41eeedd1b0baac",
                         "UniversalLinks" : "https://idolzone.cyoor.com/"
                     }
                 },
                 "push" : {},
                 "share" : {
                     "weixin" : {
-                        "appid" : "wx97a835226b9b8d6c",
+                        "appid" : "wxda41eeedd1b0baac",
                         "UniversalLinks" : "https://idolzone.cyoor.com/"
                     }
                 },
@@ -117,7 +117,7 @@
         "usingComponents" : true
     },
     "h5" : {
-        "title" : "爱豆圈子",
+        "title" : "贝壳零花钱",
         "router" : {
             "mode" : "hash"
         },
@@ -125,10 +125,10 @@
             "https" : false
         },
         "template" : "index.html",
-        "domain" : "idolzone.cyoor.com"
+        "domain" : ""
     },
     "mp-qq" : {
-        "appid" : "1109953774",
+        "appid" : "",
         "setting" : {
             "urlCheck" : true,
             "es6" : true,
@@ -137,11 +137,6 @@
         },
         "usingComponents" : true,
         "navigateToMiniProgramAppIdList" : [
-            "1109694099", //最美偶像
-            "1109702612", //我们的偶像
-            "1109771368", //超级明星榜
-            "1109771378", //爱豆庄园
-            "1110245390" //爱豆星球
         ]
     }
 }

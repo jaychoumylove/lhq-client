@@ -35,15 +35,13 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/recommend/list",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
-        ,{
-            "path" : "pages/index/index",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/user/user",
-            "style" : {}
-        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
@@ -57,12 +55,12 @@
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/farm/farm",
+				"pagePath": "pages/recommend/list",
 				"iconPath": "/static/image/tab/farm.png",
 				"selectedIconPath": "/static/image/tab/farm-tap.png",
 				"text": "裂变"
 			}, {
-				"pagePath": "pages/group/group",
+				"pagePath": "pages/index/rank",
 				"iconPath": "/static/image/tab/group.png",
 				"selectedIconPath": "/static/image/tab/rank-tap.png",
 				"text": "排行"
@@ -77,7 +75,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "爱豆圈子",
+		"navigationBarTitleText": "贝壳零花钱",
 		"navigationBarBackgroundColor": "#fbcc3e",
 		"backgroundColor": "#F8F8F8",
 		"onReachBottomDistance": 300
