@@ -18,7 +18,7 @@
 			<view class="select space-between">
 				<view class="current" :class='{active:current==0}' @tap="switchAct(0)">直邀好友</view>
 				<view class="current" :class='{active:current==1}' @tap="switchAct(1)">扩散好友</view>
-				<view class="rule flex-set">邀请好友规则</view>
+				<view class="rule flex-set" @tap="modal='rule'">邀请好友规则</view>
 			</view>
 			<view class="top-title space-between">
 				<view class="">用户</view>
@@ -107,16 +107,43 @@
 		<view class="share-container">
 			<view class="tab-share">邀请好友得分红</view>
 		</view>
+
+		<modalComponent v-if="modal == 'rule'" type="center" title="分红池收益规则说明" @closeModal="modal=''">
+			<view class="explain-container">
+				<view class="explain-top">
+					<view class="explain-rule">分红池收益规则说明</view>
+				</view>
+				<view class="explain-content">
+					<view>1、您可以通过，里的转盘抽奖和签到
+						获得积分奖励；</view>
+					<view>2、积分兑换比例：1000积分元（兑换
+						比例受每曰广告收益影响浮动）</view>
+					<view>3、您获得的积分将于次日凌晨自动换算成
+						现金红包（只换算10的倍数，剩余个位数积分累积的隔天结算） ,计入您的账号钱包
+						中；</view>
+					<view>4、每日对所有用户的积分排行，排行靠前的用户将获得额外的现金红包奖励，随着用户的逐步提升，现金奖励的名额也会逐步增加，具体奖励金额以页面为准；</view>
+					<view>5、 若您的积分不足300分，暂时不予兑
+						换，累计到隔天结箕。</view>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
 <script>
+	import modalComponent from '@/components/modalComponent.vue'
+	import btnComponent from '@/components/btnComponent.vue'
 	export default {
+		components: {
+			modalComponent,
+			btnComponent,
+		},
 		data() {
 			return {
 				userRank: [],
 				page: 1,
 				current: 0,
+				modal: '',
 				myInfo: '',
 				rankInfo: '',
 				AVATAR: this.$app.getData('AVATAR'),
@@ -141,11 +168,11 @@
 			},
 			getRankList() {
 				if (this.page > 10) return
-			
+
 				this.$app.request(this.$app.API.USER_RANK, {
 					starid: this.starid,
 					page: this.page,
-					current:this.current,
+					current: this.current,
 				}, res => {
 					this.rankInfo = res.data.rankInfo
 					this.myInfo = res.data.mymyInfo
@@ -162,46 +189,53 @@
 
 <style lang="scss" scoped>
 	.container {
-		.top-info{
+		.top-info {
 			padding-top: 40rpx;
-			.contribution{
+
+			.contribution {
 				width: 100%;
-				.text-cont{
+
+				.text-cont {
 					flex: 1;
 					font-size: 24rpx;
 					display: flex;
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					.count{
+
+					.count {
 						font-size: 32rpx;
 					}
-					.text{
+
+					.text {
 						padding: 10rpx 0;
 					}
 				}
 			}
-			.select{
+
+			.select {
 				padding: 10rpx 20rpx;
 
-				.current{
+				.current {
 					font-size: 28rpx;
 					font-weight: bold;
 					color: #000000;
 					padding: 10rpx;
 				}
-				
-				.current.active{
+
+				.current.active {
 					font-size: 28rpx;
 					font-weight: bold;
 					color: #f00f00;
 					padding: 10rpx;
 					border-bottom: 3rpx solid #f00f00;
 				}
-				.rule{
+
+				.rule {
 					font-size: 28rpx;
 					color: $text-color-2;
 				}
+
 				.rule::after {
 					content: "\e6e5";
 					font-family: "iconfont" !important;
@@ -209,14 +243,14 @@
 					color: #f00f00;
 				}
 			}
-			
-			.title{
+
+			.title {
 				padding: 20rpx 0;
 				font-size: 28rpx;
 				color: $text-color-2;
 			}
-			
-			.top-title{
+
+			.top-title {
 				padding: 20rpx 20rpx 0rpx 20rpx;
 				font-size: 22rpx;
 				color: $text-color-2;
@@ -276,12 +310,13 @@
 			display: flex;
 			align-items: center;
 			color: #FFFFFF;
-			background-color:transparent;
+			background-color: transparent;
+
 			.tab-share {
 				width: 200rpx;
 				padding: 15upx 0upx;
 				margin: 0 40rpx;
-				background:linear-gradient(90deg,rgba(254,140,175,1),rgba(255,120,161,1));
+				background: linear-gradient(90deg, rgba(254, 140, 175, 1), rgba(255, 120, 161, 1));
 				box-shadow: 0 2upx 4upx rgba(#000, 0.3);
 				justify-content: center;
 				display: flex;
@@ -290,5 +325,6 @@
 				border-radius: 60rpx;
 			}
 		}
+		
 	}
 </style>

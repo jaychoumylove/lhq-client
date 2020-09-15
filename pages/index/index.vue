@@ -4,7 +4,7 @@
 			<view class="lotter-danmu">
 				弹幕哈哈哈哈哈哈哈哈哈哈或
 			</view>
-			<view class="lotter-rule" @tap="$app.goPage('/pages/notice/notice?id=15')">规则说明</view>
+			<view class="lotter-rule" @tap="modal='rule'">规则说明</view>
 		</view>
 		<view class="contribution wrap">
 			<view class="text-cont">
@@ -73,7 +73,7 @@
 				观看完整视频积分奖励翻倍
 			</view>
 		</view>
-		<modalComponent v-if="modal == 'explain'" type="center" title="抽奖规则" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'rule'" type="center" title="抽奖规则" @closeModal="modal=''">
 			<!-- <view style="height: 500rpx;">规则说明</view> -->
 			<view class="explain-container">
 				<view class="explain-top">
@@ -330,6 +330,7 @@
 			display: flex;
 			justify-content: center;
 			padding: 40rpx;
+			position: relative;
 
 			.lottery-turn {
 				width: 95%;
@@ -445,7 +446,7 @@
 
 			.lottery-value {
 				position: absolute;
-				top: 43.5%;
+				top: 39.5%;
 				left: 39.5%;
 				background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FNdUlugiazOlxbYovfK8529ktSyYHMndDxowdnMjZuibIHbjVGU79qNYsm4wajcbNUKdBzcSJW6WEA/0);
 				background-repeat: no-repeat;
@@ -472,42 +473,6 @@
 					letter-spacing: 5rpx;
 					font-size: 20rpx;
 					text-align: center;
-				}
-			}
-		}
-
-		.explain-container {
-
-			.explain-top {
-				width: 100%;
-				height: 120rpx;
-				position: absolute;
-				top: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-
-				.explain-rule {
-					font-size: 36rpx;
-					font-weight: 600;
-					color: #FFFFFF;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-				}
-			}
-
-			.explain-content {
-				display: flex;
-				flex-direction: column;
-				padding: 40rpx;
-				font-weight: 400;
-				margin-top: 20rpx;
-				font-size: 24rpx;
-
-				view {
-					line-height: 48rpx;
-					letter-spacing: 5rpx;
 				}
 			}
 		}

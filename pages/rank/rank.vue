@@ -3,7 +3,7 @@
 		<view class="top-info">
 			<view class="rewards space-between">
 				<view class="money">2000元</view>
-				<view class="rule">分红规则</view>
+				<view class="rule" @tap="modal='rule'">分红规则</view>
 			</view>
 			<view class="title">今日分红池</view>
 			<view class="top-title space-between">
@@ -105,15 +105,42 @@
 			</view>
 			<view class="count">{{myInfo.score||'1111'}}</view>
 		</view>
+
+		<modalComponent v-if="modal == 'rule'" type="center" title="分红池收益规则说明" @closeModal="modal=''">
+			<view class="explain-container">
+				<view class="explain-top">
+					<view class="explain-rule">分红池收益规则说明</view>
+				</view>
+				<view class="explain-content">
+					<view>1、您可以通过，里的转盘抽奖和签到
+						获得积分奖励；</view>
+					<view>2、积分兑换比例：1000积分元（兑换
+						比例受每曰广告收益影响浮动）</view>
+					<view>3、您获得的积分将于次日凌晨自动换算成
+						现金红包（只换算10的倍数，剩余个位数积分累积的隔天结算） ,计入您的账号钱包
+						中；</view>
+					<view>4、每日对所有用户的积分排行，排行靠前的用户将获得额外的现金红包奖励，随着用户的逐步提升，现金奖励的名额也会逐步增加，具体奖励金额以页面为准；</view>
+					<view>5、 若您的积分不足300分，暂时不予兑
+						换，累计到隔天结箕。</view>
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 </template>
 
 <script>
+	import modalComponent from '@/components/modalComponent.vue'
+	import btnComponent from '@/components/btnComponent.vue'
 	export default {
+		components: {
+			modalComponent,
+			btnComponent,
+		},
 		data() {
 			return {
 				userRank: [],
 				page: 1,
+				modal: '',
 				myInfo: '',
 				rankInfo: '',
 				AVATAR: this.$app.getData('AVATAR'),
@@ -121,7 +148,7 @@
 			};
 		},
 		onLoad(option) {
-			this.loadData()
+			// this.loadData()
 		},
 		onReachBottom() {
 			this.page++
@@ -151,18 +178,21 @@
 
 <style lang="scss" scoped>
 	.container {
-		.top-info{
+		.top-info {
 			padding: 40rpx 40rpx 0rpx 40rpx;
-			.rewards{
-				.money{
+
+			.rewards {
+				.money {
 					font-size: 40rpx;
 					font-weight: bold;
 					color: #000000;
 				}
-				.rule{
+
+				.rule {
 					font-size: 28rpx;
 					color: $text-color-2;
 				}
+
 				.rule::after {
 					content: "\e6e5";
 					font-family: "iconfont" !important;
@@ -170,12 +200,14 @@
 					color: #f00;
 				}
 			}
-			.title{
+
+			.title {
 				padding: 20rpx 0;
 				font-size: 28rpx;
 				color: $text-color-2;
 			}
-			.top-title{
+
+			.top-title {
 				padding: 20rpx 0;
 				font-size: 22rpx;
 				color: $text-color-2;
@@ -283,5 +315,6 @@
 				color: #ff8421;
 			}
 		}
+
 	}
 </style>

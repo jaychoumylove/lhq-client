@@ -66,12 +66,10 @@
 </template>
 
 <script>
-	import badgeComponent from "@/components/badgeComponent.vue"
 	import btnComponent from "@/components/btnComponent.vue"
 	import modalComponent from "@/components/modalComponent.vue"
 	export default {
 		components: {
-			badgeComponent,
 			modalComponent,
 			btnComponent
 		},
