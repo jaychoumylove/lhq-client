@@ -3,7 +3,7 @@
 		<view class="account-info">
 			<view class="account-info-title">账户余额</view>
 			<view class="space-between flex-set">
-				<view class="balance">0.11￥</view>
+				<view class="balance">￥{{balance}}</view>
 				<view class="withdrawal">提现记录></view>
 			</view>
 		</view>
@@ -41,8 +41,22 @@
 		},
 		data() {
 			return {
-				
+				balance: 0.00,//余额
+				freeze_balance: 0.00,//冻结余额
+				withdraw: 0.00,// 提现金额
 			};
+		},
+		onShow() {
+			this.getBillState();
+		},
+		methods:{
+			getBillState() {
+				this.$app.request("page/bill", {}, res => {
+					const {balance, freeze_balance} = res.data;
+					this.balance = balance;
+					this.freeze_balance = freeze_balance;
+				})
+			},
 		}
 	}
 </script>

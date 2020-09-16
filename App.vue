@@ -24,7 +24,7 @@
 			// 处理入口option
 			this.optionHandle(option)
 			// 请求数据
-			// this.loadData(option)
+			this.loadData(option)
 		},
 		methods: {
 			/**平台判断*/
@@ -57,6 +57,7 @@
 					scene: this.$app.getData('enterScene')
 				}, res => {
 					this.$app.setData('config', res.data.config)
+					this.$app.setData('userInfo', res.data.user_info)
 				})
 			},
 

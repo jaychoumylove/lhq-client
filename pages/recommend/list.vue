@@ -3,15 +3,15 @@
 		<view class="top-info">
 			<view class="contribution wrap">
 				<view class="text-cont">
-					<view class="count">000</view>
+					<view class="count">{{state.sum}}</view>
 					<view class="text">今日好友总贡献</view>
 				</view>
 				<view class="text-cont">
-					<view class="count">000</view>
+					<view class="count">{{state.first}}</view>
 					<view class="text">今日直邀好友总贡献</view>
 				</view>
 				<view class="text-cont">
-					<view class="count">000</view>
+					<view class="count">{{state.second}}</view>
 					<view class="text">今日扩散好友总贡献</view>
 				</view>
 			</view>
@@ -28,66 +28,12 @@
 
 		<!-- 列表 -->
 		<view class="list-container">
-			<view class="item">
-				<view class="rank-left">
-					<view class="rank-num flex-set">
-						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHcvbxyK2p9RfyBWvElE6xwtFt3PoIwISs0vLHUhmiaKvhnIL6kzh38uA/0"
-						 mode=""></image>
-					</view>
-					<view class="avatar-warp">
-						<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					</view>
-					<view class="user-name">
-						{{item.user.nickname || NICKNAME}}
-					</view>
-				</view>
-				<view class="rank-right">
-					<view>{{item.hot || '1111'}}</view>
-				</view>
-			</view>
-			<view class="item">
-				<view class="rank-left">
-					<view class="rank-num flex-set">
-						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHcvbxyK2p9RfyBWvElE6xwtFt3PoIwISs0vLHUhmiaKvhnIL6kzh38uA/0"
-						 mode=""></image>
-					</view>
-					<view class="avatar-warp">
-						<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					</view>
-					<view class="user-name">
-						{{item.user.nickname || NICKNAME}}
-					</view>
-				</view>
-				<view class="rank-right">
-					<view>{{item.hot || '1111'}}</view>
-				</view>
-			</view>
-			<view class="item">
-				<view class="rank-left">
-					<view class="rank-num flex-set">
-						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHcvbxyK2p9RfyBWvElE6xwtFt3PoIwISs0vLHUhmiaKvhnIL6kzh38uA/0"
-						 mode=""></image>
-					</view>
-					<view class="avatar-warp">
-						<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					</view>
-					<view class="user-name">
-						{{item.user.nickname || NICKNAME}}
-					</view>
-				</view>
-				<view class="rank-right">
-					<view>{{item.hot || '1111'}}</view>
-				</view>
-			</view>
 			<view class="item" v-for="(item,index) in userRank" :key="index">
 				<view class="rank-left">
 					<view class="rank-num flex-set">
-						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHcvbxyK2p9RfyBWvElE6xwtFt3PoIwISs0vLHUhmiaKvhnIL6kzh38uA/0"
-						 mode=""></image>
-						<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHREheWFHXGbHGf3unhB8zN0siaVwoZzictZOjBZzhyR5ibvLFMIPwibSWDQ/0"
-						 mode=""></image>
-						<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHibnaZud2z8MHeCCXWDicbgiajDCV5ke7vaCkk0040I7m4OVeGPIAibnpbA/0"
-						 mode=""></image>
+						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDh134ol0nlrCQn7vWLH72kAyLl0LdAa6XnkQnmLqJmRI1KV69Lyh21Mw/0" mode="widthFix"></image>
+						<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhnd70vGN5r9yiceUqbAicicKXseVe2AQ3PoAH9SbEChuclrxNJxACBTCHg/0" mode="widthFix"></image>
+						<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhS35UCmWgdXl7kFWvmZ357lAmZQP2iaheiakltPll9Ycs2Xy5ARGpcUAA/0" mode="widthFix"></image>
 						<view v-else>{{index+1}}</view>
 					</view>
 					<view class="avatar-warp">
@@ -98,15 +44,18 @@
 					</view>
 				</view>
 				<view class="rank-right">
-					<view>{{item.hot || '1111'}}</view>
+					<view>{{item.point_count || 0}}</view>
 				</view>
 			</view>
 		</view>
 
 		<!-- 我的 -->
-		<view class="share-container">
-			<view class="tab-share">邀请好友得分红</view>
-		</view>
+		<button open-type="share" data-share="1">
+			<view class="share-container">
+			<!-- <button open-type="share" :data-share="1"> -->
+				<view class="tab-share">邀请好友得分红</view>
+			</view>
+		</button>
 
 		<modalComponent v-if="modal == 'rule'" type="center" title="分红池收益规则说明" @closeModal="modal=''">
 			<view class="explain-container">
@@ -148,10 +97,19 @@
 				rankInfo: '',
 				AVATAR: this.$app.getData('AVATAR'),
 				NICKNAME: this.$app.getData('NICKNAME'),
+				state: {
+					sum: 0,
+					first: 0,
+					second: 0
+				}
 			};
 		},
 		onLoad(option) {
 			this.loadData()
+		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.share
+			return this.$app.commonShareAppMessage(shareType)
 		},
 		onReachBottom() {
 			this.page++
@@ -168,14 +126,12 @@
 			},
 			getRankList() {
 				if (this.page > 10) return
-
-				this.$app.request(this.$app.API.USER_RANK, {
-					starid: this.starid,
+				const type = parseInt(this.current) + 1;
+				this.$app.request("page/friend_rank", {
 					page: this.page,
-					current: this.current,
+					type
 				}, res => {
-					this.rankInfo = res.data.rankInfo
-					this.myInfo = res.data.mymyInfo
+					this.state = res.data.state;
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
@@ -273,19 +229,18 @@
 					flex: 1 1 0%;
 
 					.rank-num {
-						width: 30rpx;
-						height: 30rpx;
+						width: 40rpx;
+						height: 40rpx;
 						margin: 0 10rpx;
 					}
 
 					.avatar-warp {
 						image {
 							border-radius: 50%;
-							width: 60rpx;
-							height: 60rpx;
+							width: 80upx;
+							height: 80upx;
 							margin: 0 10rpx;
 						}
-
 					}
 
 					.user-name {

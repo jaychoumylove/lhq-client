@@ -7,19 +7,12 @@
 				<image class="trumpet" src="/static/image/lottery/trumpet.png" mode="aspectFill"></image>
 				<view class="get-danmu">
 					<swiper class="small" autoplay interval="3000" vertical circular>
-						<swiper-item class="swiper-item">
+						<swiper-item class="swiper-item" v-for="(item, index) in logList" :key="index">
 							<view class="item-text">
-								恭喜<text>哈哈哈</text>刚刚抽中了<text>嘿嘿嘿</text>
+								恭喜<text>{{item.user.nickname}}</text>刚刚抽中了<text>{{item.reward.desc}}</text>
 							</view>
 						</swiper-item>
-						<swiper-item class="swiper-item">
-							<view class="item-text">
-								恭喜<text>哈滚滚滚哈哈</text>刚刚抽中了<text>嘿嘿斤斤计较嘿</text>
-							</view>
-						</swiper-item>
-					
 					</swiper>
-					<!-- <image src="/static/image/guild/quanzi_icon_lingdang.png" mode="widthFix"></image>恭喜<text>小仙女</text>加入<text>肖战</text>公会 -->
 				</view>
 				
 			</view>
@@ -38,42 +31,6 @@
 
 		<view class="lottery-list-container">
 			<view class="lottery-turn">
-				<block v-if="!prizeList.length">
-					
-					<view class="lotter-turn-list" :style="lotterChange==0?'background-color: #FFFB00;':''">
-						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-						<view class="prizeName">哈哈哈</view>
-					</view>
-					<view class="lotter-turn-list" :style="lotterChange==1?'background-color: #FFFB00;':''">
-						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-						<view class="prizeName">哈哈哈</view>
-					</view>
-					<view class="lotter-turn-list" :style="lotterChange==2?'background-color: #FFFB00;':''">
-						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-						<view class="prizeName">哈哈哈</view>
-					</view>
-					<view class="lotter-turn-list" :style="lotterChange==3?'background-color: #FFFB00;':''">
-						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-						<view class="prizeName">哈哈哈</view>
-					</view>
-					<view class="lotter-turn-list" :style="lotterChange==4?'background-color: #FFFB00;':''">
-						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-						<view class="prizeName">哈哈哈</view>
-					</view>
-					<view class="lotter-turn-list" :style="lotterChange==5?'background-color: #FFFB00;':''">
-						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-						<view class="prizeName">哈哈哈</view>
-					</view>
-					<view class="lotter-turn-list" :style="lotterChange==6?'background-color: #FFFB00;':''">
-						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-						<view class="prizeName">哈哈哈</view>
-					</view>
-					<view class="lotter-turn-list" :style="lotterChange==7?'background-color: #FFFB00;':''">
-						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-						<view class="prizeName">哈哈哈</view>
-					</view>
-				</block>
-
 				<block v-for="(item,index) in prizeList" :key="index">
 					<view class="lotter-turn-list" :style="lotterChange==item.index?'background-color: #FFFB00;':''">
 						<image :src="item.reward.image" mode="widthFix"></image>
@@ -88,10 +45,10 @@
 
 		<view style="text-align: center; font-size: 28rpx; padding: 20rpx 0;">
 			<view>
-				今日还有{{remainCount?remainCount:lottery_count}}次抽奖机会。
+				我的钥匙数量：{{myKeyNum}}
 			</view>
-			<view style="color: #FBCC3E;">
-				观看完整视频积分奖励翻倍
+			<view style="color: #FBCC3E;" @tap="openVideoLottery">
+				观看完整视频下次积分奖励翻倍
 			</view>
 		</view>
 		<modalComponent v-if="modal == 'rule'" type="center" title="抽奖规则" @closeModal="modal=''">
@@ -153,10 +110,6 @@
 			this.header = uni.getSystemInfoSync()['statusBarHeight'] + 'px'
 		},
 		onShow() {
-			// this.getLotter();
-			// this.getBox();
-			// this.addCount();
-			// this.getLog();
 			this.loadData();
 		},
 		methods: {
@@ -169,59 +122,8 @@
 					this.myKeyNum = key_num;
 				})
 			},
-			getLotter() {
-				this.$app.request('lottery/list', {}, res => {
-					this.prizeList = res.data.data;
-					this.lottery_value = res.data.lottery.lottery_value;
-					this.lottery_times = res.data.lottery.lottery_times;
-					this.lottery_count = res.data.lottery.lottery_count;
-					this.lottery_times_day = res.data.lottery_times_day;
-				})
-			},
 			explain() {
 				this.modal = 'explain';
-			},
-			myBox() {
-				this.modal = 'box';
-				this.getBox();
-			},
-			myLogList() {
-				this.modal = 'logList';
-				this.getLog();
-			},
-			openBox(event) {
-				wx.showModal({
-					title: '提示',
-					content: '是否现在使用？',
-					success: res => {
-						if (res.confirm) {
-							this.$app.request('lottery/openBox', {
-								type: event.currentTarget.dataset.type,
-								id: event.currentTarget.dataset.id,
-							}, res => {
-								this.$app.toast(res.msg);
-								this.getBox();
-							})
-						}
-					}
-				})
-
-			},
-			getLog() {
-				this.$app.request('lottery/log_list', {
-					page: this.logPage
-				}, res => {
-					if (this.logPage == 1) {
-						this.logList = res.data;
-					} else {
-						this.logList = this.logList.concat(res.data)
-					}
-				})
-			},
-			getBox() {
-				this.$app.request('lottery/box_list', {}, res => {
-					this.boxList = res.data;
-				})
 			},
 			lotterStar() {
 				let lotterIn = this.lotterIn;
@@ -230,14 +132,14 @@
 					return;
 				} else {
 					this.lotterIn = true;
-
 				}
-				this.$app.request('lottery/lotteryStar', {}, res => {
+				if (this.myKeyNum < 1) {
+					return this.$app.toast('没有钥匙了');
+				}
+				this.$app.request('bill/lottery', {}, res => {
 					this.lotterChange = null, //抽奖过程KEY
-						this.prizeResult = null; //抽奖结果KEY
+					this.prizeResult = null; //抽奖结果KEY
 					this.prizeName = null; //抽奖结果KEY对应的奖品名称
-
-
 
 					let This = this;
 
@@ -252,13 +154,11 @@
 							setTimeout(function() {
 
 								This.prizeResult = res.data.index,
-									This.prizeName = res.data.prizeName
-								This.prizeNum = res.data.prizeNum
-
+								This.prizeName = res.data.reward.desc
+								This.loadData();
 							}, 1000)
 						}, 1000)
 					}, 1000)
-					this.getLotter();
 				})
 			},
 			//抽奖过程奖品切换
@@ -275,29 +175,17 @@
 					clearInterval(this.timer);
 					console.log('结果' + this.prizeResult)
 					this.lotterIn = false
-					this.$app.toast('恭喜获得' + this.prizeName + '+' + this.prizeNum)
-					this.addCount();
-					this.getBox();
+					this.$app.toast('恭喜获得' + this.prizeName)
 				}
 			},
-			//点击再抽一次按钮
-			addCountRequest(type) {
-				this.$app.request('lottery/addCount', {
-					type
-				}, res => {
-					this.remainCount = res.data
-				})
+			openVideoLottery() {
+				this.$app.openVideoAd(() => {
+					this.lotteryBuriedPoint()
+				},this.$app.getData('config').kindness_switch)
 			},
-			addCount() {
-				// this.addCountRequest(0)
-
-				clearInterval(this.timeId)
-				this.timeId = setInterval(() => {
-
-					this.addCountRequest(1)
-
-				}, 60 * 1000)
-			},
+			lotteryBuriedPoint(){
+				this.$app.request('bill/double', {}, res => {})
+			}
 		}
 	}
 </script>
@@ -430,11 +318,12 @@
 					border-radius: 10rpx;
 
 					image {
-						width: 70rpx;
+						width: 100rpx;
+						height: 100rpx;
 					}
 
 					.prizeName {
-						color: #FD0100;
+						color: #a20e07;
 						font-size: 20rpx;
 						height: 30%;
 					}

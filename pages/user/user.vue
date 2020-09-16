@@ -61,7 +61,7 @@
 			<view class="task-list">
 				<view class="item" v-for="(item,index) in keyTask" :key="index">
 					<view class="left-content">
-						<image class="img" src="https://tva1.sinaimg.cn/large/0060lm7Tly1g3q1ijnxzij305k05kt8l.jpg" mode="widthFix"></image>
+						<image class="img" :src="item.extra.image" mode="widthFix"></image>
 						<view class="content ">
 							<view class="top text-overflow">{{item.title}}
 								<text v-if="item.limit > 0">({{item.times}}/{{item.limit}})</text>
@@ -520,7 +520,7 @@
 							}
 				
 							.bottom {
-								font-size: 24upx;
+								font-size: 20upx;
 								color: #888;
 							}
 						}
