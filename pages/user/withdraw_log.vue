@@ -1,24 +1,28 @@
 <!-- 个人明细 -->
 <template>
 	<view class="log-container">
-		<view class="item" v-for="(item,index) in logList" :key="index">
-			<view class="left-content">
-				<view class="content ">
-					<view class="top">{{item.content}}</view>
-					<view class="bottom">{{item.create_time}}</view>
-				</view>
-			</view>
-
-			<view class="right-content">
-				<view class="earn">
-					<view class="right-item">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6u6spsa2iclibKUibzkneYdS4CE4FGmmysZiaW3V3rz08MFNsIY8hFsXoKgg/0" mode="widthFix"></image>
-						<view class="add-count add" v-if="item.point > 0">+{{$app.formatFloatNum(item.point/10000)}}</view>
+		<block v-if="logList.length>0">
+			<view class="item" v-for="(item,index) in logList" :key="index">
+				<view class="left-content">
+					<view class="content ">
+						<view class="top">微信提现（{{item.status=='OK'?'已到账':'等候中'}}）</view>
+						<view class="bottom">{{item.create_time}}</view>
 					</view>
-
+				</view>
+			
+				<view class="right-content">
+					<view class="earn">
+						<view class="right-item">
+							<view class="add-count add">{{item.number}}元</view>
+						</view>
+			
+					</view>
 				</view>
 			</view>
-		</view>
+		</block>
+		<block v-else>
+			<view class="flex-set" style="width: 100%; padding: 20rpx; color: #cccccc;">暂无任何记录</view>
+		</block>
 	</view>
 </template>
 
@@ -39,7 +43,7 @@
 		},
 		methods: {
 			getLog() {
-				this.$app.request('page/log', {
+				this.$app.request('page/withdraw_log', {
 					page: this.page
 				}, res => {
 					if (this.page == 1) {

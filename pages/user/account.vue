@@ -4,7 +4,7 @@
 			<view class="account-info-title">账户余额</view>
 			<view class="space-between flex-set">
 				<view class="balance">￥{{balance}}</view>
-				<view class="withdrawal">提现记录></view>
+				<view class="withdrawal" @tap="$app.goPage('/pages/user/withdraw_log')">提现记录></view>
 			</view>
 		</view>
 		<view class="account-list">
@@ -20,7 +20,7 @@
 			</view>
 			
 		</view>
-		<view class="bottom-button flex-set">
+		<view class="bottom-button flex-set" @tap="withdrawIt()">
 			<btnComponent type="default">
 				<view class="flex-set" style="width: 680upx;height: 80upx;">全部提现</view>
 			</btnComponent>
@@ -57,6 +57,16 @@
 					this.freeze_balance = freeze_balance;
 				})
 			},
+			withdrawIt() {
+				if(this.balance<=0) return ;
+				this.$app.modal(`是否提现${this.balance}余额？`, () => {
+					this.$app.request("bill/withdraw", {number:this.balance}, res => {
+						this.$app.toast('提现成功，稍后即将到账');
+						this.getBillState();
+					})
+				})
+				
+			}
 		}
 	}
 </script>

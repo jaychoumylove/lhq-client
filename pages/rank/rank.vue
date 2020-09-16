@@ -108,7 +108,7 @@
 			rankList() {
 				if (this.page > 10) return
 
-				this.$app.request(this.$app.API.USER_POINT_RANK, {
+				this.$app.request('page/rank', {
 					page: this.page,
 				}, res => {
 					this.rankInfo = res.data.rankInfo

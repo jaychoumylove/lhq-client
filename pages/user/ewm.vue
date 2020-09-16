@@ -4,9 +4,6 @@
 			<view class="item tc">
 				<image class="receive-qrcode-img" :src="url" mode="widthFix" @longtap="toSave"></image>
 			</view>
-			<view class="download-img" @tap="save">
-				<image src="https://stylist2017-1252470632.cos.ap-shanghai.myqcloud.com/resources/DPC/icon/download.png"></image>
-			</view>
 		</view>
 	</view>
 </template>
@@ -15,7 +12,7 @@
 	export default {
 		data() {
 			return {
-				url: 'https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E6PCGc2OHpnROtW32Yh9zQZz84fibamQTPtFmJXMWLt1XUVM1oWvcQL9O8Y8NFWVricajJomgEpIWw/0',
+				url: '',
 			};
 		},
 		onShow() {
@@ -72,14 +69,19 @@
 		z-index: 99;
 		justify-content: center;
 		align-items: center;
+		background-image: url(https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9E6PCGc2OHpnROtW32Yh9zQZz84fibamQTPtFmJXMWLt1XUVM1oWvcQL9O8Y8NFWVricajJomgEpIWw/0);
+		background-size: 100% 100%;
 
 		.item {
 			flex: 1 0 auto;
 
 			.receive-qrcode-img {
-				position: relative;
+				position: absolute;
 				z-index: 2;
-				width: 100%;
+				width: 200rpx;
+				top: 54%;
+				left: 37%;
+				border-radius: 50%;
 			}
 		}
 

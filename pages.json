@@ -54,6 +54,12 @@
             	"navigationBarTitleText": "我的钱包"
             }
         }
+        ,{
+            "path" : "pages/user/withdraw_log",
+            "style": {
+            	"navigationBarTitleText": "提现记录"
+            }
+        }
     ],
 	"tabBar": {
 		"color": "#aaaaaa",
