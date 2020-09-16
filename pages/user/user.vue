@@ -9,7 +9,6 @@
 								<image :src="userInfo.avatarurl" mode="aspectFill"></image>
 								<view class="tips">点击获取</view>
 							</view>
-							<image class="headwear position-set" v-if="userInfo.curHeadwear&&userInfo.curHeadwear.img" :src="userInfo.curHeadwear.img"></image>
 						</view>
 					</button>
 				</view>
@@ -79,25 +78,18 @@
 				userCurrency: {},
 				userID: '',
 				modal: '',
+				signTask: [],
+				keyTask: [],
 			};
 		},
 		onLoad() {},
 		onShow() {
-
 			this.userInfo = {
 				avatarurl: this.$app.getData('userInfo')['avatarurl'] || this.$app.getData('AVATAR'),
 				nickname: this.$app.getData('userInfo')['nickname'] || this.$app.getData('NICKNAME'),
 				id: this.$app.getData('userInfo')['id'] || '123456',
 			}
-			
-			this.userStar = this.$app.getData('userStar') || {}
-
-			this.$app.request("page/user_info", {}, res => {
-				this.$app.setData('userCurrency', res.data)
-				this.userCurrency = this.$app.getData('userCurrency')
-			})
-
-			this.getInfo();
+			this.loadData();
 		
 		},
 		onShareAppMessage(e) {
@@ -105,10 +97,21 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
-			getInfo(){
-				this.$app.request(this.$app.API.USER_INFO, {}, res => {
-					this.userInfo = res.data;
-					this.$app.setData('userInfo', res.data, true)
+			loadData () {
+				this.$app.request("page/user_info", {}, res => {
+					const {user, task} = res.data;
+					this.userInfo = {
+						avatarurl: user.avatarurl,
+						nickname: user.nickname,
+						id: user.id,
+					}
+					this.userCurrency = {
+						point: user.point,
+						balance: user.balance,
+						key_num: user.key_num
+					}
+					this.signTask = task.sign;
+					this.keyTask = task.other;
 				})
 			},
 			copy() {
@@ -130,15 +133,7 @@
 						encryptedData: e.detail.encryptedData,
 					}, res => {
 						if (res.data.token) this.$app.token = res.data.token
-						this.$app.request('page/app', {}, res => {
-							this.$app.setData('userCurrency', res.data.userCurrency)
-							this.$app.setData('userInfo', res.data.userInfo)
-							this.$app.setData('config', res.data.config)
-
-							this.userInfo = res.data.userInfo
-							this.$app.toast('更新成功')
-						})
-
+						this.$app.setData('userInfo', res.data.userInfo)
 					}, 'POST', true)
 				}
 			},
