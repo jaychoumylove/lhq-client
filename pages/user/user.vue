@@ -9,6 +9,7 @@
 								<image :src="userInfo.avatarurl" mode="aspectFill"></image>
 								<view class="tips">点击获取</view>
 							</view>
+							<image class="headwear position-set" v-if="userInfo.curHeadwear&&userInfo.curHeadwear.img" :src="userInfo.curHeadwear.img"></image>
 						</view>
 					</button>
 				</view>
@@ -59,6 +60,119 @@
 		
 		<view class="task-container">
 			<view class="task-title">常规任务</view>
+			<view class="task-sign">
+				<view class="task-sign-title"><text>签到任务</text>签到赠送积分</view>
+				<view class="task-sign-list">
+					<view class="sign-item">
+						<view class="count flex-set active">+10</view>
+						<view class="sign-day active">第一天</view>
+					</view>
+					<view class="sign-item">
+						<view class="count flex-set">+20</view>
+						<view class="sign-day">第二天</view>
+					</view>
+					<view class="sign-item">
+						<view class="count flex-set">+30</view>
+						<view class="sign-day">第三天</view>
+					</view>
+					<view class="sign-item">
+						<view class="count flex-set">+40</view>
+						<view class="sign-day">第四天</view>
+					</view>
+					<view class="sign-item">
+						<view class="count flex-set">+50</view>
+						<view class="sign-day">第五天</view>
+					</view>
+					<view class="sign-item">
+						<view class="count flex-set">+60</view>
+						<view class="sign-day">第六天</view>
+					</view>
+					<view class="sign-item">
+						<view class="count flex-set">+70</view>
+						<view class="sign-day">第七天</view>
+					</view>
+				</view>
+			</view>
+			<view class="task-list">
+				<view class="item">
+					<view class="left-content">
+						<image class="img" src="https://tva1.sinaimg.cn/large/0060lm7Tly1g3q1ijnxzij305k05kt8l.jpg" mode="widthFix"></image>
+						<view class="content ">
+							<view class="top text-overflow">每日免费领取钥匙(1/10)</view>
+							<view class="bottom">每日可领取10次，每次间隔60秒</view>
+						</view>
+					</view>
+				
+					<view class="right-content">
+						<view class="btn">
+							<btnComponent type="default">
+								<view class="flex-set" style="width: 130upx;height: 60upx;">去领取</view>
+							</btnComponent>
+						</view>
+					</view>
+				</view>
+				<view class="item">
+					<view class="left-content">
+						<image class="img" src="https://tva1.sinaimg.cn/large/0060lm7Tly1g3q1ijnxzij305k05kt8l.jpg" mode="widthFix"></image>
+						<view class="content ">
+							<view class="top text-overflow">每日免费领取钥匙(1/10)</view>
+							<view class="bottom">每日可领取10次，每次间隔60秒</view>
+						</view>
+					</view>
+				
+					<view class="right-content">
+						<view class="btn">
+							<btnComponent type="default">
+								<view class="flex-set" style="width: 130upx;height: 60upx;">去领取</view>
+							</btnComponent>
+						</view>
+					</view>
+				</view>
+				<view class="item">
+					<view class="left-content">
+						<image class="img" src="https://tva1.sinaimg.cn/large/0060lm7Tly1g3q1ijnxzij305k05kt8l.jpg" mode="widthFix"></image>
+						<view class="content ">
+							<view class="top text-overflow">每日免费领取钥匙(1/10)</view>
+							<view class="bottom">每日可领取10次，每次间隔60秒</view>
+						</view>
+					</view>
+				
+					<view class="right-content">
+						<view class="btn">
+							<btnComponent type="default">
+								<view class="flex-set" style="width: 130upx;height: 60upx;">去领取</view>
+							</btnComponent>
+						</view>
+					</view>
+				</view>
+				<view class="item" v-for="(item,index) in taskList" :key="index">
+					<view class="left-content">
+						<image class="img" :src="item.task_type.img" mode=""></image>
+						<view class="content ">
+							<view class="top text-overflow">{{item.name}}({{item.doneTimes}}/{{item.times}})</view>
+							<view class="bottom" v-if="item.desc">{{item.desc}}</view>
+						</view>
+					</view>
+				
+					<view class="right-content">
+						<view class="btn" @tap="doTask(item,index)">
+							<btnComponent type="default" v-if="item.status == 0">
+								<!-- 默认 -->
+								<view class="flex-set" style="width: 130upx;height: 60upx;">
+									{{item.task_type.btn_text||'去完成'}}
+								</view>
+							</btnComponent>
+							<btnComponent type="success" v-if="item.status == 1">
+								<view class="flex-set" style="width: 130upx;height: 60upx;">可领取</view>
+							</btnComponent>
+							<btnComponent type="disable" v-if="item.status == 2">
+								<view class="flex-set" style="width: 130upx;height: 60upx;">已完成</view>
+							</btnComponent>
+						</view>
+					</view>
+				
+				</view>
+			</view>
 		</view>
 		
 	</view>
@@ -78,18 +192,26 @@
 				userCurrency: {},
 				userID: '',
 				modal: '',
-				signTask: [],
-				keyTask: [],
+				taskList: {},
 			};
 		},
 		onLoad() {},
 		onShow() {
+
 			this.userInfo = {
 				avatarurl: this.$app.getData('userInfo')['avatarurl'] || this.$app.getData('AVATAR'),
 				nickname: this.$app.getData('userInfo')['nickname'] || this.$app.getData('NICKNAME'),
 				id: this.$app.getData('userInfo')['id'] || '123456',
 			}
-			this.loadData();
+			
+			this.userStar = this.$app.getData('userStar') || {}
+
+			this.$app.request("page/user_info", {}, res => {
+				this.$app.setData('userCurrency', res.data)
+				this.userCurrency = this.$app.getData('userCurrency')
+			})
+
+			this.getInfo();
 		
 		},
 		onShareAppMessage(e) {
@@ -97,21 +219,10 @@
 			return this.$app.commonShareAppMessage(shareType)
 		},
 		methods: {
-			loadData () {
-				this.$app.request("page/user_info", {}, res => {
-					const {user, task} = res.data;
-					this.userInfo = {
-						avatarurl: user.avatarurl,
-						nickname: user.nickname,
-						id: user.id,
-					}
-					this.userCurrency = {
-						point: user.point,
-						balance: user.balance,
-						key_num: user.key_num
-					}
-					this.signTask = task.sign;
-					this.keyTask = task.other;
+			getInfo(){
+				this.$app.request(this.$app.API.USER_INFO, {}, res => {
+					this.userInfo = res.data;
+					this.$app.setData('userInfo', res.data, true)
 				})
 			},
 			copy() {
@@ -133,7 +244,15 @@
 						encryptedData: e.detail.encryptedData,
 					}, res => {
 						if (res.data.token) this.$app.token = res.data.token
-						this.$app.setData('userInfo', res.data.userInfo)
+						this.$app.request('page/app', {}, res => {
+							this.$app.setData('userCurrency', res.data.userCurrency)
+							this.$app.setData('userInfo', res.data.userInfo)
+							this.$app.setData('config', res.data.config)
+
+							this.userInfo = res.data.userInfo
+							this.$app.toast('更新成功')
+						})
+
 					}, 'POST', true)
 				}
 			},
@@ -356,6 +475,104 @@
 				font-weight: bold;
 				color: #5F6176;
 			}
+			.task-sign{
+				padding: 20rpx;
+				background-color: #fff6f6;
+				border-radius: 20rpx;
+				font-size: 24rpx;
+				margin: 20rpx 0;
+				
+				.task-sign-title{
+					color: #999999;
+					padding: 10rpx 0;
+					text{
+						color: #000000;
+						font-size: 28rpx;
+						font-weight: bold;
+						padding-right: 10rpx;
+					}
+				}
+				.task-sign-list{
+					width: 100%;
+					display: flex;
+					flex-wrap: wrap;
+					.sign-item{
+						display: flex;
+						flex: 1 0%;
+						flex-direction: column;
+						justify-content: center;
+						.count{
+							width: 70rpx;
+							height: 70rpx;
+							border-radius: 50%;
+							background-color: #ccc;
+							color: #666666;
+							margin-top: 20rpx;
+						}
+						.sign-day{
+							color: #ccc;
+							padding: 10rpx 0;
+						}
+						.count.active{
+							background-color: #ff867d !important;
+							color: #FFFFFF !important;
+						}
+						.sign-day.active{
+							color: #ff867d !important;
+						}
+						
+					}
+				}
+			}
+			.task-list{
+				.item {
+					background-color: #fffbf6;
+					border-bottom: 1rpx solid #f5f5f5;
+					display: flex;
+					padding: 25upx 10upx;
+					justify-content: space-between;
+					align-items: center;
+				
+					.left-content {
+						display: flex;
+						align-items: center;
+				
+						.img {
+							width: 80upx;
+							height: 80upx;
+							border-radius: 50%;
+						}
+				
+						.content {
+							margin-left: 20upx;
+							display: flex;
+							flex-direction: column;
+							justify-content: space-around;
+				
+							.top {
+								max-width: 350upx;
+							}
+				
+							.bottom {
+								font-size: 24upx;
+								color: #888;
+							}
+						}
+					}
+				
+				
+					.right-content {
+						display: flex;
+				
+						.btn {
+							display: flex;
+							align-items: center;
+						}
+					}
+				
+				}
+			}
+			
 		}
 
 		.modal-container {
