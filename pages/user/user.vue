@@ -92,7 +92,7 @@
 			
 			this.userStar = this.$app.getData('userStar') || {}
 
-			this.$app.request(this.$app.API.USER_CURRENCY, {}, res => {
+			this.$app.request("page/user_info", {}, res => {
 				this.$app.setData('userCurrency', res.data)
 				this.userCurrency = this.$app.getData('userCurrency')
 			})

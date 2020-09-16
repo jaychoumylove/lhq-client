@@ -24,7 +24,7 @@
 			// 处理入口option
 			this.optionHandle(option)
 			// 请求数据
-			this.loadData(option)
+			// this.loadData(option)
 		},
 		methods: {
 			/**平台判断*/
