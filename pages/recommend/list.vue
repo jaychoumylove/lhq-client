@@ -271,7 +271,7 @@
 				width: 200rpx;
 				padding: 15upx 0upx;
 				margin: 0 40rpx;
-				background: linear-gradient(90deg, rgba(254, 140, 175, 1), rgba(255, 120, 161, 1));
+				background: linear-gradient(to right bottom, #f8648a, #F00);
 				box-shadow: 0 2upx 4upx rgba(#000, 0.3);
 				justify-content: center;
 				display: flex;

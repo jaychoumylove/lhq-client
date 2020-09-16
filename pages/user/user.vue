@@ -53,8 +53,8 @@
 				<view class="task-sign-title"><text>签到任务</text>签到赠送积分</view>
 				<view class="task-sign-list">
 					<view class="sign-item" v-for="(item, index) in signTask" :key="index" @tap="taskSignSettle(index)">
-						<view class="count flex-set" :class="{active: item.status > -1}">+{{item.reward.point}}</view>
-						<view class="sign-day">第{{item.number}}天</view>
+						<view class="count flex-set" :class="{active: item.status > -1,animation: item.status == 0}">+{{item.reward.point}}</view>
+						<view class="sign-day" :class="{active: item.status > -1}">第{{item.number}}天</view>
 					</view>
 				</view>
 			</view>
@@ -319,7 +319,6 @@
 							font-weight: 700;
 							font-size: 30upx;
 							margin-right: 8upx;
-							color: #5F6176;
 							max-width: 300rpx;
 						}
 
@@ -341,7 +340,6 @@
 							font-size: 22upx;
 							background-color: #FDDE2F;
 							padding: 0 10upx;
-							color: #5F6176;
 							margin: 0 10upx;
 						}
 
@@ -412,7 +410,6 @@
 				margin: 0 20upx;
 				padding: 20upx 0;
 				border-bottom: 1rpx solid #f5f5f5;
-				color: #5F6176;
 
 				.left-wrap {
 					display: flex;
@@ -439,7 +436,6 @@
 			.task-title {
 				font-size: 28upx;
 				font-weight: bold;
-				color: #5F6176;
 			}
 			.task-sign{
 				padding: 20rpx;
@@ -485,6 +481,34 @@
 						}
 						.sign-day.active{
 							color: #ff867d !important;
+						}
+						
+						.animation{
+							animation: mymove 3s infinite;
+							animation-direction: alternate;
+							/*轮流反向播放动画。*/
+							animation-timing-function: ease-in-out;
+						}
+						
+						@keyframes mymove {
+							0% {
+								transform: scale(1);
+								/*开始为原始大小*/
+							}
+						
+							25% {
+								transform: scale(1.1);
+								/*放大1.1倍*/
+							}
+						
+							50% {
+								transform: scale(1);
+							}
+						
+							75% {
+								transform: scale(1.1);
+							}
+						
 						}
 						
 					}

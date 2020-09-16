@@ -164,6 +164,7 @@
 
 		.list-container {
 			padding: 0 20rpx;
+			margin-bottom: 100rpx;
 
 			.item {
 				display: flex;

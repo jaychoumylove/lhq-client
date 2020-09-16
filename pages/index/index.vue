@@ -9,7 +9,7 @@
 					<swiper class="small" autoplay interval="3000" vertical circular>
 						<swiper-item class="swiper-item" v-for="(item, index) in logList" :key="index">
 							<view class="item-text">
-								恭喜<text>{{item.user.nickname}}</text>刚刚抽中了<text>{{item.reward.desc}}</text>
+								恭喜<view class="text-overflow" style="padding: 0 10rpx; color: #FBCC3E; max-width: 250rpx;">{{item.user.nickname || $app.getData('NICKNAME')}}</view>刚刚抽中了<text>{{item.reward.desc}}</text>
 							</view>
 						</swiper-item>
 					</swiper>
@@ -32,7 +32,7 @@
 		<view class="lottery-list-container">
 			<view class="lottery-turn">
 				<block v-for="(item,index) in prizeList" :key="index">
-					<view class="lotter-turn-list" :style="lotterChange==item.index?'background-color: #FFFB00;':''">
+					<view class="lotter-turn-list" :style="lotterChange==item.index?'background-color: #FBCC3E;':''">
 						<image :src="item.reward.image" mode="widthFix"></image>
 						<view class="prizeName" v-if="item.reward.desc">{{item.reward.desc}}</view>
 					</view>
@@ -233,12 +233,13 @@
 						flex-direction: row;
 						.item-text{
 							width: 100%;
+							display: flex;
+							flex-direction: row;
 							overflow: hidden;
 							text-overflow: ellipsis;
 							white-space: nowrap;
 						}
-						text {
-						}
+						
 					}
 				}
 			}
