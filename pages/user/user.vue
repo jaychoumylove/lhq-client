@@ -169,6 +169,7 @@
 				})
 			},
 			setTimer(index) {
+				if (this.dayKeyTaskTimer) clearInterval(this.dayKeyTaskTimer);
 				this.dayKeyTaskTimer = setInterval(() => {
 					if (this.keyTask[index].seconds > 0) {
 						this.keyTask[index].seconds--;
@@ -238,7 +239,6 @@
 						this.keyTask[index].able_settle = false;
 					}
 					if (item.type == 'DAY_KEY') {
-						clearInterval(this.dayKeyTaskTimer);
 						this.keyTask[index].seconds = res.data.second;
 					}
 					this.$set(this.keyTask,index,this.keyTask[index]);
