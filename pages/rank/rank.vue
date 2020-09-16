@@ -14,66 +14,13 @@
 
 		<!-- 列表 -->
 		<view class="list-container">
-			<view class="item">
-				<view class="rank-left">
-					<view class="rank-num flex-set">
-						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHcvbxyK2p9RfyBWvElE6xwtFt3PoIwISs0vLHUhmiaKvhnIL6kzh38uA/0"
-						 mode=""></image>
-					</view>
-					<view class="avatar-warp">
-						<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					</view>
-					<view class="user-name">
-						{{item.user.nickname || NICKNAME}}
-					</view>
-				</view>
-				<view class="rank-right">
-					<view>{{item.hot || '1111'}}</view>
-				</view>
-			</view>
-			<view class="item">
-				<view class="rank-left">
-					<view class="rank-num flex-set">
-						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHcvbxyK2p9RfyBWvElE6xwtFt3PoIwISs0vLHUhmiaKvhnIL6kzh38uA/0"
-						 mode=""></image>
-					</view>
-					<view class="avatar-warp">
-						<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					</view>
-					<view class="user-name">
-						{{item.user.nickname || NICKNAME}}
-					</view>
-				</view>
-				<view class="rank-right">
-					<view>{{item.hot || '1111'}}</view>
-				</view>
-			</view>
-			<view class="item">
-				<view class="rank-left">
-					<view class="rank-num flex-set">
-						<image class="icon" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHcvbxyK2p9RfyBWvElE6xwtFt3PoIwISs0vLHUhmiaKvhnIL6kzh38uA/0"
-						 mode=""></image>
-					</view>
-					<view class="avatar-warp">
-						<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					</view>
-					<view class="user-name">
-						{{item.user.nickname || NICKNAME}}
-					</view>
-				</view>
-				<view class="rank-right">
-					<view>{{item.hot || '1111'}}</view>
-				</view>
-			</view>
+			
 			<view class="item" v-for="(item,index) in userRank" :key="index">
 				<view class="rank-left">
 					<view class="rank-num flex-set">
-						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHcvbxyK2p9RfyBWvElE6xwtFt3PoIwISs0vLHUhmiaKvhnIL6kzh38uA/0"
-						 mode=""></image>
-						<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHREheWFHXGbHGf3unhB8zN0siaVwoZzictZOjBZzhyR5ibvLFMIPwibSWDQ/0"
-						 mode=""></image>
-						<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HhvlXURtbJbFvRVwdINYhHibnaZud2z8MHeCCXWDicbgiajDCV5ke7vaCkk0040I7m4OVeGPIAibnpbA/0"
-						 mode=""></image>
+						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDh134ol0nlrCQn7vWLH72kAyLl0LdAa6XnkQnmLqJmRI1KV69Lyh21Mw/0" mode="widthFix"></image>
+						<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhnd70vGN5r9yiceUqbAicicKXseVe2AQ3PoAH9SbEChuclrxNJxACBTCHg/0" mode="widthFix"></image>
+						<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhS35UCmWgdXl7kFWvmZ357lAmZQP2iaheiakltPll9Ycs2Xy5ARGpcUAA/0" mode="widthFix"></image>
 						<view v-else>{{index+1}}</view>
 					</view>
 					<view class="avatar-warp">
@@ -84,7 +31,7 @@
 					</view>
 				</view>
 				<view class="rank-right">
-					<view>{{item.hot || '1111'}}</view>
+					<view>{{item.point || '0'}}</view>
 				</view>
 			</view>
 		</view>
@@ -103,7 +50,7 @@
 				</view>
 
 			</view>
-			<view class="count">{{myInfo.score||'1111'}}</view>
+			<view class="count">{{myInfo.point || '0'}}</view>
 		</view>
 
 		<modalComponent v-if="modal == 'rule'" type="center" title="分红池收益规则说明" @closeModal="modal=''">
@@ -147,24 +94,25 @@
 				NICKNAME: this.$app.getData('NICKNAME'),
 			};
 		},
-		onLoad(option) {
-			// this.loadData()
+		onShow() {
+			this.loadData()
 		},
 		onReachBottom() {
 			this.page++
-			this.loadData()
+			this.rankList()
 		},
 		methods: {
-
 			loadData() {
+				this.rankList()
+			},
+			rankList() {
 				if (this.page > 10) return
 
-				this.$app.request(this.$app.API.USER_RANK, {
-					starid: this.starid,
+				this.$app.request(this.$app.API.USER_POINT_RANK, {
 					page: this.page,
 				}, res => {
 					this.rankInfo = res.data.rankInfo
-					this.myInfo = res.data.mymyInfo
+					this.myInfo = res.data.myInfo
 					if (this.page == 1) {
 						this.userRank = res.data.list
 					} else {
@@ -230,16 +178,16 @@
 					flex: 1 1 0%;
 
 					.rank-num {
-						width: 30rpx;
-						height: 30rpx;
+						width: 40rpx;
+						height: 40rpx;
 						margin: 0 10rpx;
 					}
 
 					.avatar-warp {
 						image {
 							border-radius: 50%;
-							width: 60rpx;
-							height: 60rpx;
+							width: 80rpx;
+							height: 80rpx;
 							margin: 0 10rpx;
 						}
 
