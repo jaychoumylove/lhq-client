@@ -77,7 +77,7 @@
 				<block v-for="(item,index) in prizeList" :key="index">
 					<view class="lotter-turn-list" :style="lotterChange==item.index?'background-color: #FFFB00;':''">
 						<image :src="item.reward.image" mode="widthFix"></image>
-						<view class="prizeName">{{item.reward.desc}}</view>
+						<view class="prizeName" v-if="item.reward.desc">{{item.reward.desc}}</view>
 					</view>
 				</block>
 			</view>
@@ -225,7 +225,6 @@
 			},
 			lotterStar() {
 				let lotterIn = this.lotterIn;
-				console.log(lotterIn);
 				if (lotterIn) {
 					this.$app.toast('你点击的太快了')
 					return;

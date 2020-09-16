@@ -6,7 +6,7 @@
 					<button style="overflow: visible;" open-type="getUserInfo" @getuserinfo="getUserInfo">
 						<view class="avatar">
 							<view class="avatarurl">
-								<image :src="userInfo.avatarurl" mode="aspectFill"></image>
+								<image :src="userInfo.avatarurl||AVATAR" mode="aspectFill"></image>
 								<view class="tips">点击获取</view>
 							</view>
 						</view>
@@ -15,15 +15,13 @@
 
 				<view class="info-content">
 					<view class="item-line top">
-						<view class="username">{{userInfo.nickname}}</view>
+						<view class="username">{{userInfo.nickname||NICKNAME}}</view>
 					</view>
 					<view class="item-line">
 						<view class="flex-set" v-if="userInfo.id" @tap="$app.copy(userInfo.id*1234)">
 							<text style="font-weight: bold; padding-right: 10rpx;">ID:{{userInfo.id*1234}}</text> 复制
 						</view>
-
 					</view>
-					
 				</view>
 			</view>
 		</view>
@@ -39,7 +37,7 @@
 				<view class="left-wrap">
 					<view class="text">我的积分</view>
 				</view>
-				<view class="right-wrap iconfont">0000</view>
+				<view class="right-wrap iconfont">{{userCurrency.point}}</view>
 			</view>
 			<view class="list-item" @tap="$app.goPage('/pages/user/ewm')" v-if="$app.getData('config').version != $app.getData('VERSION')">
 				<view class="left-wrap">
@@ -47,14 +45,6 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
-			<!-- <button open-type="contact" :session-from="$app.getData('userInfo').id">
-				<view class="list-item">
-					<view class="left-wrap">
-						<view class="text">联系客服</view>
-					</view>
-					<view class="right-wrap iconfont iconjiantou"></view>
-				</view>
-			</button> -->
 		</view>
 		
 		<view class="task-container">
@@ -62,114 +52,59 @@
 			<view class="task-sign">
 				<view class="task-sign-title"><text>签到任务</text>签到赠送积分</view>
 				<view class="task-sign-list">
-					<view class="sign-item">
-						<view class="count flex-set active">+10</view>
-						<view class="sign-day active">第一天</view>
-					</view>
-					<view class="sign-item">
-						<view class="count flex-set">+20</view>
-						<view class="sign-day">第二天</view>
-					</view>
-					<view class="sign-item">
-						<view class="count flex-set">+30</view>
-						<view class="sign-day">第三天</view>
-					</view>
-					<view class="sign-item">
-						<view class="count flex-set">+40</view>
-						<view class="sign-day">第四天</view>
-					</view>
-					<view class="sign-item">
-						<view class="count flex-set">+50</view>
-						<view class="sign-day">第五天</view>
-					</view>
-					<view class="sign-item">
-						<view class="count flex-set">+60</view>
-						<view class="sign-day">第六天</view>
-					</view>
-					<view class="sign-item">
-						<view class="count flex-set">+70</view>
-						<view class="sign-day">第七天</view>
+					<view class="sign-item" v-for="(item, index) in signTask" :key="index" @tap="taskSignSettle(index)">
+						<view class="count flex-set" :class="{active: item.status > -1}">+{{item.reward.point}}</view>
+						<view class="sign-day">第{{item.number}}天</view>
 					</view>
 				</view>
 			</view>
 			<view class="task-list">
-				<view class="item">
+				<view class="item" v-for="(item,index) in keyTask" :key="index">
 					<view class="left-content">
 						<image class="img" src="https://tva1.sinaimg.cn/large/0060lm7Tly1g3q1ijnxzij305k05kt8l.jpg" mode="widthFix"></image>
 						<view class="content ">
-							<view class="top text-overflow">每日免费领取钥匙(1/10)</view>
-							<view class="bottom">每日可领取10次，每次间隔60秒</view>
+							<view class="top text-overflow">{{item.title}}
+								<text v-if="item.limit > 0">({{item.times}}/{{item.limit}})</text>
+							</view>
+							<view class="bottom">{{item.desc}}</view>
 						</view>
 					</view>
 				
 					<view class="right-content">
 						<view class="btn">
-							<btnComponent type="default">
-								<view class="flex-set" style="width: 130upx;height: 60upx;">去领取</view>
-							</btnComponent>
+							<block v-if="item.type == 'VIDEO_KEY'">
+								<btnComponent type="default">
+									<view class="flex-set" v-if="item.extra.type == 'open_video'" @tap="openVideoSettle(index)" style="width: 130upx;height: 60upx;">
+										{{item.btn_text||'去领取'}}
+									</view>
+								</btnComponent>
+							</block>
+							<block v-if="item.type == 'DAY_KEY'">
+								<btnComponent type="default" v-if='!item.seconds' @tap="taskKeySetttle(index)">
+									<view class="flex-set" style="width: 130upx;height: 60upx;">
+										{{item.btn_text||'去领取'}}
+									</view>
+								</btnComponent>
+								<btnComponent type="disable" v-if='item.seconds'>
+									<view class="flex-set" style="width: 130upx;height: 60upx;">
+										{{item.seconds}}s
+									</view>
+								</btnComponent>
+							</block>
+							<block v-if="item.type == 'INVITE'">
+								<btnComponent type="default" v-if="!item.able_settle">
+									<button class="btn" open-type="share" :data-share="item.extra.shareid">
+										<view class="flex-set" style="width: 130upx;height: 60upx;">
+											{{item.btn_text||'去领取'}}
+										</view>
+									</button>
+								</btnComponent>
+								<btnComponent type="success" @tap="taskKeySetttle(index)" v-if="item.able_settle">
+									<view class="flex-set" style="width: 130upx;height: 60upx;">去领取</view>
+								</btnComponent>
+							</block>
 						</view>
 					</view>
-				</view>
-				<view class="item">
-					<view class="left-content">
-						<image class="img" src="https://tva1.sinaimg.cn/large/0060lm7Tly1g3q1ijnxzij305k05kt8l.jpg" mode="widthFix"></image>
-						<view class="content ">
-							<view class="top text-overflow">每日免费领取钥匙(1/10)</view>
-							<view class="bottom">每日可领取10次，每次间隔60秒</view>
-						</view>
-					</view>
-				
-					<view class="right-content">
-						<view class="btn">
-							<btnComponent type="default">
-								<view class="flex-set" style="width: 130upx;height: 60upx;">去领取</view>
-							</btnComponent>
-						</view>
-					</view>
-				</view>
-				<view class="item">
-					<view class="left-content">
-						<image class="img" src="https://tva1.sinaimg.cn/large/0060lm7Tly1g3q1ijnxzij305k05kt8l.jpg" mode="widthFix"></image>
-						<view class="content ">
-							<view class="top text-overflow">每日免费领取钥匙(1/10)</view>
-							<view class="bottom">每日可领取10次，每次间隔60秒</view>
-						</view>
-					</view>
-				
-					<view class="right-content">
-						<view class="btn">
-							<btnComponent type="default">
-								<view class="flex-set" style="width: 130upx;height: 60upx;">去领取</view>
-							</btnComponent>
-						</view>
-					</view>
-				</view>
-				<view class="item" v-for="(item,index) in taskList" :key="index">
-					<view class="left-content">
-						<image class="img" :src="item.task_type.img" mode=""></image>
-						<view class="content ">
-							<view class="top text-overflow">{{item.name}}({{item.doneTimes}}/{{item.times}})</view>
-							<view class="bottom" v-if="item.desc">{{item.desc}}</view>
-						</view>
-					</view>
-				
-					<view class="right-content">
-						<view class="btn" @tap="doTask(item,index)">
-							<btnComponent type="default" v-if="item.status == 0">
-								<!-- 默认 -->
-								<view class="flex-set" style="width: 130upx;height: 60upx;">
-									{{item.task_type.btn_text||'去完成'}}
-								</view>
-							</btnComponent>
-							<btnComponent type="success" v-if="item.status == 1">
-								<view class="flex-set" style="width: 130upx;height: 60upx;">可领取</view>
-							</btnComponent>
-							<btnComponent type="disable" v-if="item.status == 2">
-								<view class="flex-set" style="width: 130upx;height: 60upx;">已完成</view>
-							</btnComponent>
-						</view>
-					</view>
-				
 				</view>
 			</view>
 		</view>
@@ -193,6 +128,8 @@
 				modal: '',
 				signTask: [],
 				keyTask: [],
+				dayKeyTaskTimer: "",
+				dayKeyTaskTimeLeft: 0,
 			};
 		},
 		onLoad() {},
@@ -224,7 +161,20 @@
 					}
 					this.signTask = task.sign;
 					this.keyTask = task.other;
+					Object.keys(task.other).map((item) => {
+						if (task.other[item].type == 'DAY_KEY') {
+							this.setTimer(item);
+						}
+					})
 				})
+			},
+			setTimer(index) {
+				this.dayKeyTaskTimer = setInterval(() => {
+					if (this.keyTask[index].seconds > 0) {
+						this.keyTask[index].seconds--;
+						this.$set(this.keyTask,index,this.keyTask[index]);
+					}
+				}, 1000)
 			},
 			copy() {
 				uni.setClipboardData({
@@ -246,17 +196,21 @@
 					}, res => {
 						if (res.data.token) this.$app.token = res.data.token
 						this.$app.setData('userInfo', res.data.userInfo)
+						this.userInfo = res.data.userInfo
 					}, 'POST', true)
 				}
 			},
 			taskSignSettle(index) {
 				// 签到任务
 				const item = this.signTask[index];
-				if (item.status == 1) {
-					return this.$app.toast('不可以重复签到哦', 'none')
-				}
-				if (item.status == -1) {
-					return this.$app.toast('还没到签到时间哦')
+				// if (item.status == 1) {
+				// 	return this.$app.toast('不可以重复签到哦', 'none')
+				// }
+				// if (item.status == -1) {
+				// 	return this.$app.toast('还没到签到时间哦')
+				// }
+				if (item.status != 0) {
+					return;
 				}
 				uni.showLoading({
 					mask:true,
@@ -269,15 +223,34 @@
 				}, 'POST', true)
 			},
 			
-			taskKeySetttle(item) {
+			taskKeySetttle(index) {
+				const item = this.keyTask[index];
 				// 钥匙任务
-				if (!item.able_settle) {
-					return this.$app.toast('未达到领取条件')
-				};
+				// if (!item.able_settle) {
+				// 	return this.$app.toast('未达到领取条件')
+				// };
 				this.$app.request('task/settle', {type: item.type}, res => {
 					let msg = `恭喜获得${res.data.key_num}把钥匙`;
 					this.$app.toast(msg, 'success');
+					this.keyTask[index].times = this.keyTask[index].times+1;
+					if (item.type == 'INVITE') {
+						this.keyTask[index].number = 0;
+						this.keyTask[index].able_settle = false;
+					}
+					if (item.type == 'DAY_KEY') {
+						clearInterval(this.dayKeyTaskTimer);
+						this.keyTask[index].seconds = res.data.second;
+					}
+					this.$set(this.keyTask,index,this.keyTask[index]);
+					if (item.type == 'DAY_KEY') {
+						this.setTimer(index);
+					}
 				}, 'POST', true)
+			},
+			openVideoSettle(index) {
+				this.$app.openVideoAd(() => {
+					this.taskKeySetttle(index)
+				},this.$app.getData('config').kindness_switch)
 			}
 		}
 	}
