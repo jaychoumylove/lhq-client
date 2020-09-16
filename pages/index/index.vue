@@ -38,44 +38,46 @@
 
 		<view class="lottery-list-container">
 			<view class="lottery-turn">
-				<view class="lotter-turn-list" :style="lotterChange==0?'background-color: #FFFB00;':''">
-					<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-					<view class="prizeName">哈哈哈</view>
-				</view>
-				<view class="lotter-turn-list" :style="lotterChange==1?'background-color: #FFFB00;':''">
-					<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-					<view class="prizeName">哈哈哈</view>
-				</view>
-				<view class="lotter-turn-list" :style="lotterChange==2?'background-color: #FFFB00;':''">
-					<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-					<view class="prizeName">哈哈哈</view>
-				</view>
-				<view class="lotter-turn-list" :style="lotterChange==3?'background-color: #FFFB00;':''">
-					<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-					<view class="prizeName">哈哈哈</view>
-				</view>
-				<view class="lotter-turn-list" :style="lotterChange==4?'background-color: #FFFB00;':''">
-					<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-					<view class="prizeName">哈哈哈</view>
-				</view>
-				<view class="lotter-turn-list" :style="lotterChange==5?'background-color: #FFFB00;':''">
-					<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-					<view class="prizeName">哈哈哈</view>
-				</view>
-				<view class="lotter-turn-list" :style="lotterChange==6?'background-color: #FFFB00;':''">
-					<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-					<view class="prizeName">哈哈哈</view>
-				</view>
-				<view class="lotter-turn-list" :style="lotterChange==7?'background-color: #FFFB00;':''">
-					<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
-					<view class="prizeName">哈哈哈</view>
-				</view>
+				<block v-if="!prizeList.length">
+					
+					<view class="lotter-turn-list" :style="lotterChange==0?'background-color: #FFFB00;':''">
+						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
+						<view class="prizeName">哈哈哈</view>
+					</view>
+					<view class="lotter-turn-list" :style="lotterChange==1?'background-color: #FFFB00;':''">
+						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
+						<view class="prizeName">哈哈哈</view>
+					</view>
+					<view class="lotter-turn-list" :style="lotterChange==2?'background-color: #FFFB00;':''">
+						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
+						<view class="prizeName">哈哈哈</view>
+					</view>
+					<view class="lotter-turn-list" :style="lotterChange==3?'background-color: #FFFB00;':''">
+						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
+						<view class="prizeName">哈哈哈</view>
+					</view>
+					<view class="lotter-turn-list" :style="lotterChange==4?'background-color: #FFFB00;':''">
+						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
+						<view class="prizeName">哈哈哈</view>
+					</view>
+					<view class="lotter-turn-list" :style="lotterChange==5?'background-color: #FFFB00;':''">
+						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
+						<view class="prizeName">哈哈哈</view>
+					</view>
+					<view class="lotter-turn-list" :style="lotterChange==6?'background-color: #FFFB00;':''">
+						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
+						<view class="prizeName">哈哈哈</view>
+					</view>
+					<view class="lotter-turn-list" :style="lotterChange==7?'background-color: #FFFB00;':''">
+						<image src="/static/image/lottery/no.1.png" mode="widthFix"></image>
+						<view class="prizeName">哈哈哈</view>
+					</view>
+				</block>
 
 				<block v-for="(item,index) in prizeList" :key="index">
 					<view class="lotter-turn-list" :style="lotterChange==item.index?'background-color: #FFFB00;':''">
-						<image :src="item.imgsrc" mode="widthFix"></image>
-						<view class="prizeName">{{item.prizeName}}</view>
-
+						<image :src="item.reward.image" mode="widthFix"></image>
+						<view class="prizeName">{{item.reward.desc}}</view>
 					</view>
 				</block>
 			</view>
@@ -129,9 +131,9 @@
 				lottery_value: 0, //幸运值
 				lottery_times: 0, //已抽奖次数
 				lottery_count: 0, //初次查询剩余抽奖次数
-				prizeList: [],
+				prizeList: [],// 奖池
 				boxList: '',
-				logList: '',
+				logList: [], // 将次抽取滚动记录
 				prizeResult: '', //抽奖结果KEY
 				prizeName: null, //抽奖结果KEY对应的奖品名称
 				lotterIn: false, //抽奖未结束不能点击
@@ -142,7 +144,9 @@
 				lottery_times_day: 0, //每日上限次数
 				lotterRes: '', //抽奖结果
 				logPage: 1,
-
+				myKeyNum: 0,
+				top: [], // 积分榜前三
+				
 			};
 		},
 		onLoad() {
@@ -153,8 +157,18 @@
 			// this.getBox();
 			// this.addCount();
 			// this.getLog();
+			this.loadData();
 		},
 		methods: {
+			loadData() {
+				this.$app.request('page/index', {}, res => {
+					const {log, lottery, top, key_num} = res.data;
+					this.logList = log;
+					this.prizeList = lottery;
+					this.top = top;
+					this.myKeyNum = key_num;
+				})
+			},
 			getLotter() {
 				this.$app.request('lottery/list', {}, res => {
 					this.prizeList = res.data.data;

@@ -137,6 +137,36 @@
 					}, 'POST', true)
 				}
 			},
+			taskSignSettle(index) {
+				// 签到任务
+				const item = this.signTask[index];
+				if (item.status == 1) {
+					return this.$app.toast('不可以重复签到哦', 'none')
+				}
+				if (item.status == -1) {
+					return this.$app.toast('还没到签到时间哦')
+				}
+				uni.showLoading({
+					mask:true,
+					title:"签到中..."
+				});
+				this.$app.request('task/settle', {type: item.type}, res => {
+					this.signTask[index].status = 1;
+					let msg = `恭喜获得${res.data.point}积分`;
+					this.$app.toast(msg, 'success');
+				}, 'POST', true)
+			},
+			
+			taskKeySetttle(item) {
+				// 钥匙任务
+				if (!item.able_settle) {
+					return this.$app.toast('未达到领取条件')
+				};
+				this.$app.request('task/settle', {type: item.type}, res => {
+					let msg = `恭喜获得${res.data.key_num}把钥匙`;
+					this.$app.toast(msg, 'success');
+				}, 'POST', true)
+			}
 		}
 	}
 </script>
