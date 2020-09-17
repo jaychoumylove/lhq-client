@@ -48,7 +48,7 @@
 				我的钥匙数量：{{myKeyNum}}
 			</view>
 			<view style="color: #FBCC3E;" @tap="openVideoLottery">
-				观看完整视频下次积分奖励翻倍
+				观看完整视频下次贝壳奖励翻倍
 			</view>
 		</view>
 		<modalComponent v-if="modal == 'rule'" type="center" title="抽奖规则" @closeModal="modal=''">
@@ -57,9 +57,9 @@
 					<view class="explain-rule">抽奖规则</view>
 				</view>
 				<view class="explain-content">
-					<view>1.转盘总共分8个，每个均有不同积分可获得，抽中贝壳可获得神秘大奖；</view>
+					<view>1.转盘总共分8个，每个均有不同贝壳可获得，抽中神秘贝壳可获得神秘大奖；</view>
 					<view>2.启动转盘需要获取钥匙，钥匙不足可在我的页面登录后获取；</view>
-					<view>3.根据获取的积分数量，可前往排行页面查看自己的排名及收益情况；</view>
+					<view>3.根据获取的贝壳数量，可前往排行页面查看自己的排名及收益情况；</view>
 				</view>
 			</view>
 		</modalComponent>

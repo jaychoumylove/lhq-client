@@ -22,7 +22,7 @@
 			</view>
 			<view class="top-title space-between">
 				<view class="">用户</view>
-				<view class="">累积积分（个）</view>
+				<view class="">累积贝壳（个）</view>
 			</view>
 		</view>
 

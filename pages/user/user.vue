@@ -35,7 +35,7 @@
 			</view>
 			<view class="list-item" v-if="$app.getData('config').version != $app.getData('VERSION')">
 				<view class="left-wrap">
-					<view class="text">我的积分</view>
+					<view class="text">我的贝壳</view>
 				</view>
 				<view class="right-wrap iconfont">{{userCurrency.point}}</view>
 			</view>
@@ -64,7 +64,7 @@
 		<view class="task-container">
 			<view class="task-title">常规任务</view>
 			<view class="task-sign">
-				<view class="task-sign-title"><text>签到任务</text>签到赠送积分</view>
+				<view class="task-sign-title"><text>签到任务</text>签到赠送贝壳</view>
 				<view class="task-sign-list">
 					<view class="sign-item" v-for="(item, index) in signTask" :key="index" @tap="taskSignSettle(index)">
 						<view class="count flex-set" :class="{active: item.status > -1,animation: item.status == 0}">+{{item.reward.point}}</view>
@@ -233,7 +233,7 @@
 				});
 				this.$app.request('task/settle', {type: item.type}, res => {
 					this.signTask[index].status = 1;
-					let msg = `恭喜获得${res.data.point}积分`;
+					let msg = `恭喜获得${res.data.point}贝壳`;
 					this.$app.toast(msg, 'success');
 				}, 'POST', true)
 			},
