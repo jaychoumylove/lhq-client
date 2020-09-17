@@ -134,6 +134,7 @@
 					this.lotterIn = true;
 				}
 				if (this.myKeyNum < 1) {
+					this.lotterIn = false;
 					return this.$app.toast('没有钥匙了');
 				}
 				this.$app.request('bill/lottery', {}, res => {
@@ -165,7 +166,7 @@
 			changePrize() {
 				let lotterChange = this.lotterChange;
 				lotterChange++;
-				lotterChange = lotterChange > 12 ? 1 : lotterChange;
+				lotterChange = lotterChange > 8 ? 1 : lotterChange;
 
 				this.lotterChange = lotterChange
 
@@ -309,13 +310,13 @@
 				.lotter-turn-list {
 					width: 143rpx;
 					height: 140rpx;
-					background-color: #FFEEEE;
+					background-color: #FFEFEF;
 					display: flex;
 					justify-content: center;
 					align-items: center;
 					flex-direction: column;
 					margin: 0 15rpx;
-					border: 6rpx solid #B72100;
+					border: 6rpx solid #ffc0c1;
 					border-radius: 10rpx;
 
 					image {
