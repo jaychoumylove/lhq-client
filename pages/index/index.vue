@@ -1,7 +1,7 @@
 <template>
 	<view class="lottery-container">
 		<view :style="'height:'+header+';width:100%;'"></view>
-		<view class="navigationBar flex-set">贝壳零花钱</view>
+		<view class="navigationBar flex-set">零花钱贝壳</view>
 		<view class="top-container">
 			<view class="lotter-danmu">
 				<image class="trumpet" src="/static/image/lottery/trumpet.png" mode="aspectFill"></image>
@@ -28,6 +28,12 @@
 				<view class="count">100</view>
 			</view>
 		</view>
+		
+		<view style="text-align: center; font-size: 28rpx; color: #FBCC3E; padding-top: 10rpx;">
+			<view>
+				今日幸运值为{{lucky_num}}点
+			</view>
+		</view>
 
 		<view class="lottery-list-container">
 			<view class="lottery-turn">
@@ -47,8 +53,8 @@
 			<view>
 				我的钥匙数量：{{myKeyNum}}
 			</view>
-			<view style="color: #FBCC3E;" @tap="openVideoLottery">
-				观看完整视频下次贝壳奖励翻倍
+			<view style="color: #FBCC3E; padding-top: 20rpx;" @tap="openVideoLottery">
+				{{'>>'}}点击观看完整视频下次贝壳奖励翻倍{{'<<'}}
 			</view>
 		</view>
 		
@@ -59,25 +65,25 @@
 					<view class="top-item" style="margin-top: 3%;">
 						<view class="avatar avatar2">
 							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqHmueeZYKuacYia8j4bAp6QvdV6QiaEOnbkHrmldib4cWCX0Z9zH9icI0Fw/0" mode="widthFix"></image>
-							<image class='user-img' :src="top[1]&&top[1].user.avatarurl" mode="aspectFill"></image>
+							<image class='user-img' :src="top[1]&&top[1].user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						</view>
-						<view class="user-name text-overflow">{{top[1]&&top[1].user.nickname}}</view>
+						<view class="user-name text-overflow">{{top[1]&&top[1].user.nickname || $app.getData('NICKNAME')}}</view>
 						<view class="hot flex-set">{{top[1]&&top[1].point||0}}</view>
 					</view>
 					<view class="top-item">
 						<view class="avatar avatar1">
 							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqh1dCicMH9zslul4jQDl03ibeuBmTKsICIS3b0qpO60uiamrNjakg7AUEA/0" mode="widthFix"></image>
-							<image class='user-img' :src="top[0]&&top[0].user.avatarurl" mode="aspectFill"></image>
+							<image class='user-img' :src="top[0]&&top[0].user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						</view>
-						<view class="user-name text-overflow">{{top[0]&&top[0].user.nickname}}</view>
+						<view class="user-name text-overflow">{{top[0]&&top[0].user.nickname || $app.getData('NICKNAME')}}</view>
 						<view class="hot flex-set">{{top[0]&&top[0].point||0}}</view>
 					</view>
 					<view class="top-item" style="margin-top: 6%;">
 						<view class="avatar avatar3">
 							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqboqMXAAOFaApkN81oVuJVgE61VOLl522ZZKMVTMJ4tJhQibIz6GpJNQ/0" mode="widthFix"></image>
-							<image class='user-img' :src="top[2]&&top[2].user.avatarurl" mode="aspectFill"></image>
+							<image class='user-img' :src="top[2]&&top[2].user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						</view>
-						<view class="user-name text-overflow">{{top[2]&&top[2].user.nickname}}</view>
+						<view class="user-name text-overflow">{{top[2]&&top[2].user.nickname || $app.getData('NICKNAME')}}</view>
 						<view class="hot flex-set">{{top[2]&&top[2].point||0}}</view>
 					</view>
 				</view>
@@ -94,12 +100,12 @@
 					<view>1.转盘总共分8个，每个均有不同贝壳可获得，抽中神秘贝壳可获得神秘大奖；</view>
 					<view>2.启动转盘需要获取钥匙，钥匙不足可在我的页面登录后获取；</view>
 					<view>3.根据获取的贝壳数量，可前往排行页面查看自己的排名及收益情况；</view>
+					<view>4.看一次广告增加一点幸运值，幸运值越高获得高额奖励的概率越高；</view>
 				</view>
 			</view>
 		</modalComponent>
 
 	</view>
-
 
 </template>
 
@@ -133,6 +139,7 @@
 				logPage: 1,
 				myKeyNum: 0,
 				top: [], // 积分榜前三
+				lucky_num: 0,
 				
 			};
 		},
@@ -145,17 +152,23 @@
 		methods: {
 			loadData() {
 				this.$app.request('page/index', {}, res => {
-					const {log, lottery, top, key_num} = res.data;
+					const {log, lottery, top, key_num, lucky_num} = res.data;
 					this.logList = log;
 					this.prizeList = lottery;
 					this.top = top;
 					this.myKeyNum = key_num;
+					this.lucky_num = lucky_num;
+					
 				})
 			},
 			explain() {
 				this.modal = 'explain';
 			},
 			lotterStar() {
+				if(!this.$app.getData('userInfo')['avatarurl']){
+					this.$app.toast('请点击个人中心-头像完善身份信息')
+					return ;
+				} 
 				let lotterIn = this.lotterIn;
 				if (lotterIn) {
 					this.$app.toast('你点击的太快了')
@@ -321,7 +334,7 @@
 		.lottery-list-container {
 			display: flex;
 			justify-content: center;
-			padding: 40rpx;
+			padding: 30rpx;
 			position: relative;
 
 			.lottery-turn {

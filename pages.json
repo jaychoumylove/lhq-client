@@ -62,8 +62,8 @@
         }
     ],
 	"tabBar": {
-		"color": "#aaaaaa",
-		"selectedColor": "#fbcc3e",
+		"color": "#cccccc",
+		"selectedColor": "#FF7268",
 		"backgroundColor": "#ffffff",
 		"borderStyle": "black",
 		"list": [{
@@ -80,7 +80,7 @@
 			}, {
 				"pagePath": "pages/rank/rank",
 				"iconPath": "/static/image/tab/group.png",
-				"selectedIconPath": "/static/image/tab/rank-tap.png",
+				"selectedIconPath": "/static/image/tab/group-tap.png",
 				"text": "排行"
 			},
 			{
@@ -92,9 +92,9 @@
 		]
 	},
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "贝壳零花钱",
-		"navigationBarBackgroundColor": "#fbcc3e",
+		"navigationBarBackgroundColor": "#FF7268",
 		"backgroundColor": "#F8F8F8",
 		"onReachBottomDistance": 300
 			// #ifdef H5

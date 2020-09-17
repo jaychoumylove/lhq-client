@@ -216,6 +216,10 @@
 				}
 			},
 			taskSignSettle(index) {
+				if(!this.$app.getData('userInfo')['avatarurl']){
+					this.$app.toast('请点击左上角头像完善身份信息')
+					return ;
+				} 
 				// 签到任务
 				const item = this.signTask[index];
 				// if (item.status == 1) {
@@ -234,7 +238,7 @@
 				this.$app.request('task/settle', {type: item.type}, res => {
 					this.signTask[index].status = 1;
 					let msg = `恭喜获得${res.data.point}贝壳`;
-					this.$app.toast(msg, 'success');
+					this.$app.toast(msg);
 				}, 'POST', true)
 			},
 			
@@ -246,7 +250,7 @@
 				// };
 				this.$app.request('task/settle', {type: item.type}, res => {
 					let msg = `恭喜获得${res.data.key_num}把钥匙`;
-					this.$app.toast(msg, 'success');
+					this.$app.toast(msg);
 					this.keyTask[index].times = this.keyTask[index].times+1;
 					if (item.type == 'INVITE') {
 						this.keyTask[index].number = 0;
