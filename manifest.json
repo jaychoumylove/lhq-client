@@ -114,7 +114,14 @@
         "usingComponents" : true
     },
     "mp-toutiao" : {
-        "usingComponents" : true
+        "usingComponents" : true,
+        "appid" : "tt25ef5352bad4a741",
+        "setting" : {
+            "urlCheck" : false,
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true
+        }
     },
     "h5" : {
         "title" : "贝壳零花钱",
@@ -136,7 +143,6 @@
             "postcss" : true
         },
         "usingComponents" : true,
-        "navigateToMiniProgramAppIdList" : [
-        ]
+        "navigateToMiniProgramAppIdList" : []
     }
 }
