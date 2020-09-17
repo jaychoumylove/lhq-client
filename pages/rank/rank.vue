@@ -14,26 +14,33 @@
 
 		<!-- 列表 -->
 		<view class="list-container">
-			
-			<view class="item" v-for="(item,index) in userRank" :key="index">
-				<view class="rank-left">
-					<view class="rank-num flex-set">
-						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDh134ol0nlrCQn7vWLH72kAyLl0LdAa6XnkQnmLqJmRI1KV69Lyh21Mw/0" mode="widthFix"></image>
-						<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhnd70vGN5r9yiceUqbAicicKXseVe2AQ3PoAH9SbEChuclrxNJxACBTCHg/0" mode="widthFix"></image>
-						<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhS35UCmWgdXl7kFWvmZ357lAmZQP2iaheiakltPll9Ycs2Xy5ARGpcUAA/0" mode="widthFix"></image>
-						<view v-else>{{index+1}}</view>
+			<block v-if="userRank.length>0">
+				<view class="item" v-for="(item,index) in userRank" :key="index">
+					<view class="rank-left">
+						<view class="rank-num flex-set">
+							<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDh134ol0nlrCQn7vWLH72kAyLl0LdAa6XnkQnmLqJmRI1KV69Lyh21Mw/0"
+							 mode="widthFix"></image>
+							<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhnd70vGN5r9yiceUqbAicicKXseVe2AQ3PoAH9SbEChuclrxNJxACBTCHg/0"
+							 mode="widthFix"></image>
+							<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhS35UCmWgdXl7kFWvmZ357lAmZQP2iaheiakltPll9Ycs2Xy5ARGpcUAA/0"
+							 mode="widthFix"></image>
+							<view v-else>{{index+1}}</view>
+						</view>
+						<view class="avatar-warp">
+							<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
+						</view>
+						<view class="user-name">
+							{{item.user.nickname || NICKNAME}}
+						</view>
 					</view>
-					<view class="avatar-warp">
-						<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					</view>
-					<view class="user-name">
-						{{item.user.nickname || NICKNAME}}
+					<view class="rank-right">
+						<view>{{item.point || '0'}}</view>
 					</view>
 				</view>
-				<view class="rank-right">
-					<view>{{item.point || '0'}}</view>
-				</view>
-			</view>
+			</block>
+			<block v-else>
+				<view class="flex-set" style="width: 100%; padding: 20rpx; color: #cccccc; font-size: 24rpx;">----暂无数据----</view>
+			</block>
 		</view>
 
 		<!-- 我的 -->

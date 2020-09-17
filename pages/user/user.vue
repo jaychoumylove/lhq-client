@@ -6,8 +6,8 @@
 					<button style="overflow: visible;" open-type="getUserInfo" @getuserinfo="getUserInfo">
 						<view class="avatar">
 							<view class="avatarurl">
-								<image :src="userInfo.avatarurl||AVATAR" mode="aspectFill"></image>
-								<view class="tips">点击获取</view>
+								<image :src="userInfo.avatarurl || $app.getData('AVATAR') " mode="widthFix"></image>
+								<view class="tips" v-if="!userInfo.avatarurl">点击获取</view>
 							</view>
 						</view>
 					</button>
@@ -15,7 +15,7 @@
 
 				<view class="info-content">
 					<view class="item-line top">
-						<view class="username">{{userInfo.nickname||NICKNAME}}</view>
+						<view class="username">{{userInfo.nickname || $app.getData('NICKNAME')}}</view>
 					</view>
 					<view class="item-line">
 						<view class="flex-set" v-if="userInfo.id" @tap="$app.copy(userInfo.id*1234)">
@@ -45,6 +45,20 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
+			<view class="list-item" v-if="$app.getData('config').version != $app.getData('VERSION')" @tap="$app.goPage('/pages/user/log')">
+				<view class="left-wrap">
+					<view class="text">记录明细</view>
+				</view>
+				<view class="right-wrap iconfont iconjiantou"></view>
+			</view>
+			<button open-type="contact" :session-from="$app.getData('userInfo').id">
+				<view class="list-item">
+					<view class="left-wrap">
+						<view class="text">联系客服</view>
+					</view>
+					<view class="right-wrap iconfont iconjiantou"></view>
+				</view>
+			</button>
 		</view>
 		
 		<view class="task-container">
@@ -288,8 +302,14 @@
 						border-radius: 50%;
 						width: 140upx;
 						height: 140upx;
-
 						z-index: 1;
+						
+						.tips{
+							position: absolute;
+							bottom: 5%;
+							font-size: 24rpx;
+							left: 18%;
+						}
 
 					}
 

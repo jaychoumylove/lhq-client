@@ -12,8 +12,8 @@
 			<view class="right-content">
 				<view class="earn">
 					<view class="right-item">
-						<image src="https://mmbiz.qpic.cn/mmbiz_png/h9gCibVJa7JXX6zqzjkSn01fIlGmzJw6u6spsa2iclibKUibzkneYdS4CE4FGmmysZiaW3V3rz08MFNsIY8hFsXoKgg/0" mode="widthFix"></image>
-						<view class="add-count add" v-if="item.point > 0">+{{$app.formatFloatNum(item.point/10000)}}</view>
+						<view class="add-count" :class="{add:item.point>0,del:item.point<0}" v-if="item.type==1">积分：{{item.point>0?'+'+item.point:item.point}}</view>
+						<view class="add-count" :class="{add:item.key_num>0,del:item.key_num<0}" v-if="item.type==2">钥匙：{{item.key_num>0?'+'+item.key_num:item.key_num}}</view>
 					</view>
 
 				</view>
@@ -98,6 +98,13 @@
 
 						image {
 							width: 40upx;
+						}
+						.add{
+							color: #000000;
+						}
+						
+						.del{
+							color: #f00f00;
 						}
 
 					}

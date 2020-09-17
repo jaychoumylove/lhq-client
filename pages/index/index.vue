@@ -57,13 +57,9 @@
 					<view class="explain-rule">抽奖规则</view>
 				</view>
 				<view class="explain-content">
-					<view>1.每人每天抽奖机会上限为{{lottery_times_day}}次</view>
-					<view>2.在线时,每分钟恢复一次抽奖机会,存储上限为30次</view>
-					<view>3.离线时,每分钟恢复一次抽奖机会,存储上限为10次</view>
-					<view>4.每次抽奖可累计幸运值，幸运值越高到达100将增大抽中稀有物品几率。</view>
-					<view>5.获得的道具物品可通过我的宝箱查看使用。</view>
-					<view>6.每日幸运值重置为"0"。</view>
-					<view>7.随机星星礼盒和神秘宝箱上限5个，请及时使用，否则再次抽取到将作废。</view>
+					<view>1.转盘总共分8个，每个均有不同积分可获得，抽中贝壳可获得神秘大奖；</view>
+					<view>2.启动转盘需要获取钥匙，钥匙不足可在我的页面登录后获取；</view>
+					<view>3.根据获取的积分数量，可前往排行页面查看自己的排名及收益情况；</view>
 				</view>
 			</view>
 		</modalComponent>
