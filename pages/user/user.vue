@@ -6,8 +6,8 @@
 					<button style="overflow: visible;" open-type="getUserInfo" @getuserinfo="getUserInfo">
 						<view class="avatar">
 							<view class="avatarurl">
-								<image :src="userInfo.avatarurl||AVATAR" mode="aspectFill"></image>
-								<view class="tips">点击获取</view>
+								<image :src="userInfo.avatarurl || $app.getData('AVATAR') " mode="widthFix"></image>
+								<view class="tips" v-if="!userInfo.avatarurl">点击获取</view>
 							</view>
 						</view>
 					</button>
@@ -15,7 +15,7 @@
 
 				<view class="info-content">
 					<view class="item-line top">
-						<view class="username">{{userInfo.nickname||NICKNAME}}</view>
+						<view class="username">{{userInfo.nickname || $app.getData('NICKNAME')}}</view>
 					</view>
 					<view class="item-line">
 						<view class="flex-set" v-if="userInfo.id" @tap="$app.copy(userInfo.id*1234)">
@@ -35,7 +35,7 @@
 			</view>
 			<view class="list-item" v-if="$app.getData('config').version != $app.getData('VERSION')">
 				<view class="left-wrap">
-					<view class="text">我的积分</view>
+					<view class="text">我的贝壳</view>
 				</view>
 				<view class="right-wrap iconfont">{{userCurrency.point}}</view>
 			</view>
@@ -45,12 +45,26 @@
 				</view>
 				<view class="right-wrap iconfont iconjiantou"></view>
 			</view>
+			<view class="list-item" v-if="$app.getData('config').version != $app.getData('VERSION')" @tap="$app.goPage('/pages/user/log')">
+				<view class="left-wrap">
+					<view class="text">记录明细</view>
+				</view>
+				<view class="right-wrap iconfont iconjiantou"></view>
+			</view>
+			<button open-type="contact" :session-from="$app.getData('userInfo').id">
+				<view class="list-item">
+					<view class="left-wrap">
+						<view class="text">联系客服</view>
+					</view>
+					<view class="right-wrap iconfont iconjiantou"></view>
+				</view>
+			</button>
 		</view>
 		
 		<view class="task-container">
 			<view class="task-title">常规任务</view>
 			<view class="task-sign">
-				<view class="task-sign-title"><text>签到任务</text>签到赠送积分</view>
+				<view class="task-sign-title"><text>签到任务</text>签到赠送贝壳</view>
 				<view class="task-sign-list">
 					<view class="sign-item" v-for="(item, index) in signTask" :key="index" @tap="taskSignSettle(index)">
 						<view class="count flex-set" :class="{active: item.status > -1,animation: item.status == 0}">+{{item.reward.point}}</view>
@@ -219,7 +233,7 @@
 				});
 				this.$app.request('task/settle', {type: item.type}, res => {
 					this.signTask[index].status = 1;
-					let msg = `恭喜获得${res.data.point}积分`;
+					let msg = `恭喜获得${res.data.point}贝壳`;
 					this.$app.toast(msg, 'success');
 				}, 'POST', true)
 			},
@@ -288,8 +302,14 @@
 						border-radius: 50%;
 						width: 140upx;
 						height: 140upx;
-
 						z-index: 1;
+						
+						.tips{
+							position: absolute;
+							bottom: 5%;
+							font-size: 24rpx;
+							left: 18%;
+						}
 
 					}
 

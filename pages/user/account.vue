@@ -15,8 +15,9 @@
 			<view class="text-wrap">
 				<view>1.微信提现，需绑定的微信号已实名认证，否则将打款失败</view>
 				<view>2.余额不少于0.3元才可提现</view>
-				<view>3.现金将在5分钟内到账</view>
-				<view>4.每日可提现一次</view>
+				<view>3.提现申请将在一个工作日内处理</view>
+				<view>4.提现申请处理结果可在提现记录查询</view>
+				<view>5.每日可提现一次</view>
 			</view>
 			
 		</view>
@@ -61,7 +62,7 @@
 				if(this.balance<=0) return ;
 				this.$app.modal(`是否提现${this.balance}余额？`, () => {
 					this.$app.request("bill/withdraw", {number:this.balance}, res => {
-						this.$app.toast('提现成功，稍后即将到账');
+						this.$app.toast('提现申请成功，一个工作日内处理');
 						this.getBillState();
 					})
 				})

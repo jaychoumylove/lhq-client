@@ -22,31 +22,36 @@
 			</view>
 			<view class="top-title space-between">
 				<view class="">用户</view>
-				<view class="">累积积分（个）</view>
+				<view class="">累积贝壳（个）</view>
 			</view>
 		</view>
 
 		<!-- 列表 -->
 		<view class="list-container">
-			<view class="item" v-for="(item,index) in userRank" :key="index">
-				<view class="rank-left">
-					<view class="rank-num flex-set">
-						<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDh134ol0nlrCQn7vWLH72kAyLl0LdAa6XnkQnmLqJmRI1KV69Lyh21Mw/0" mode="widthFix"></image>
-						<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhnd70vGN5r9yiceUqbAicicKXseVe2AQ3PoAH9SbEChuclrxNJxACBTCHg/0" mode="widthFix"></image>
-						<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhS35UCmWgdXl7kFWvmZ357lAmZQP2iaheiakltPll9Ycs2Xy5ARGpcUAA/0" mode="widthFix"></image>
-						<view v-else>{{index+1}}</view>
+			<block v-if="userRank.length>0">
+				<view class="item" v-for="(item,index) in userRank" :key="index">
+					<view class="rank-left">
+						<view class="rank-num flex-set">
+							<image class="icon" v-if="index==0" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDh134ol0nlrCQn7vWLH72kAyLl0LdAa6XnkQnmLqJmRI1KV69Lyh21Mw/0" mode="widthFix"></image>
+							<image class="icon" v-else-if="index==1" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhnd70vGN5r9yiceUqbAicicKXseVe2AQ3PoAH9SbEChuclrxNJxACBTCHg/0" mode="widthFix"></image>
+							<image class="icon" v-else-if="index==2" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9EialQmUQepDVg73f0xRdiaDhS35UCmWgdXl7kFWvmZ357lAmZQP2iaheiakltPll9Ycs2Xy5ARGpcUAA/0" mode="widthFix"></image>
+							<view v-else>{{index+1}}</view>
+						</view>
+						<view class="avatar-warp">
+							<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
+						</view>
+						<view class="user-name">
+							{{item.user.nickname || NICKNAME}}
+						</view>
 					</view>
-					<view class="avatar-warp">
-						<image class="avatar" :src="item.user.avatarurl || AVATAR" mode="aspectFill"></image>
-					</view>
-					<view class="user-name">
-						{{item.user.nickname || NICKNAME}}
+					<view class="rank-right">
+						<view>{{item.point_count || 0}}</view>
 					</view>
 				</view>
-				<view class="rank-right">
-					<view>{{item.point_count || 0}}</view>
-				</view>
-			</view>
+			</block>
+			<block v-else>
+				<view class="flex-set" style="width: 100%; padding: 20rpx; color: #cccccc; font-size: 24rpx;">----暂无数据----</view>
+			</block>
 		</view>
 
 		<!-- 我的 -->
@@ -57,22 +62,14 @@
 			</view>
 		</button>
 
-		<modalComponent v-if="modal == 'rule'" type="center" title="分红池收益规则说明" @closeModal="modal=''">
+		<modalComponent v-if="modal == 'rule'" type="center" title="邀请好友规则说明" @closeModal="modal=''">
 			<view class="explain-container">
 				<view class="explain-top">
-					<view class="explain-rule">分红池收益规则说明</view>
+					<view class="explain-rule">邀请好友规则说明</view>
 				</view>
 				<view class="explain-content">
-					<view>1、您可以通过，里的转盘抽奖和签到
-						获得积分奖励；</view>
-					<view>2、积分兑换比例：1000积分元（兑换
-						比例受每曰广告收益影响浮动）</view>
-					<view>3、您获得的积分将于次日凌晨自动换算成
-						现金红包（只换算10的倍数，剩余个位数积分累积的隔天结算） ,计入您的账号钱包
-						中；</view>
-					<view>4、每日对所有用户的积分排行，排行靠前的用户将获得额外的现金红包奖励，随着用户的逐步提升，现金奖励的名额也会逐步增加，具体奖励金额以页面为准；</view>
-					<view>5、 若您的积分不足300分，暂时不予兑
-						换，累计到隔天结箕。</view>
+					<view>1、邀请一级好友（直邀好友），即可获得一级好友10%比例的碎片奖励；</view>
+					<view>2、邀请二级好友（扩散好友），即可获得二级好友5%比例的碎片奖励；</view>
 				</view>
 			</view>
 		</modalComponent>

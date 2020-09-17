@@ -5,7 +5,11 @@
 			<view class="item" v-for="(item,index) in logList" :key="index">
 				<view class="left-content">
 					<view class="content ">
-						<view class="top">微信提现（{{item.status=='OK'?'已到账':'等候中'}}）</view>
+						<view class="top" v-if="item.status=='WAIT'">微信提现（等候审核）</view>
+						<view class="top" v-if="item.status=='WAIT_WITHDRAW'">微信提现（审核成功-等候到账）</view>
+						<view class="top" v-if="item.status=='OK'">微信提现（已到账）</view>
+						<view class="top" v-if="item.status=='FAIL'">微信提现（未到账）</view>
+						<view class="top" v-if="item.status=='REFUSE'">微信提现（审核拒绝）</view>
 						<view class="bottom">{{item.create_time}}</view>
 					</view>
 				</view>
