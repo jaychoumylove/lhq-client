@@ -6,8 +6,16 @@
 			</view>
 		</view>
 		
-		<view class="canvas-container flex-set">
+		<view class="canvas-container flex-set" v-if="modal == 'canvas'">
+			<view class="close-btn flex-set iconfont iconclose" @tap="modal = ''"></view>
+		
 			<canvas canvas-id='mycanvas' class="canvas"></canvas>
+		
+			<view class="btn-wrap">
+				<view v-if="$app.getData('config').pyq_switch == '0'" class='fsend-btn flex-set' @tap="saveCanvas();">
+					<view>保存</view>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -52,7 +60,8 @@
 					success: e => {
 						if (e['confirm']) {
 							// this.save();
-							this.qrR();
+							this.modal = 'canvas'
+							this.getAuth();
 						}
 					}
 				});
@@ -70,7 +79,31 @@
 					}
 				})
 			},
+			getAuth () {
+				uni.getSetting({
+					success: res => {
+						// console.info(res.authSetting);
+						if (!res.authSetting['scope.writePhotosAlbum']){
+							uni.authorize({
+								scope: 'scope.writePhotosAlbum',
+								success: () => {
+									this.qrR()
+								},
+								fail: () => {//这里是用户拒绝授权后的回调
+									return this.$app.toast('没有授权')
+								}
+							})
+						} else {
+							this.qrR()
+						}
+					}
+				})
+			},
 			qrR() {
+				uni.showLoading({
+					title:"生成中...",
+					mask:true
+				})
 				var rate = this.$app.getData('sysInfo').windowWidth / 375 / 2.0
 				let ctx = uni.createCanvasContext('mycanvas');
 				
@@ -90,10 +123,17 @@
 							uni.canvasToTempFilePath({
 								canvasId: 'mycanvas',
 								success: res => {
+									console.info(res.tempFilePath)
 									uni.saveImageToPhotosAlbum({
 										filePath: res.tempFilePath,
 										success: () => {
+											this.modal = '';
 											this.$app.toast('保存成功', 'success')
+										},
+										fail: (e) => {
+											console.info(e);
+											this.modal = '';
+											this.$app.toast('保存失败', 'none')
 										}
 									});
 								}
@@ -122,7 +162,76 @@
 			height: 854upx;
 			margin-top: 40rpx;
 		}
+	
+		.close-btn {
+			position: absolute;
+			width: 80upx;
+			height: 80upx;
+			z-index: 99;
+			border-radius: 50%;
+			// background-color: rgba(0, 0, 0, .5);
+			color: #FFF;
+			font-size: 45upx;
+			right: 20upx;
+			top: 10%;
+		}
+	
+		.wrapper {
+			width: 540upx;
+			height: 960upx;
+			padding: 40upx;
+			flex-direction: column;
+			background-color: #FFF;
+	
+			image {
+				width: 100%;
+				flex: 1;
+			}
+	
+			.btn {
+				margin-top: 40upx;
+				width: 100%;
+				height: 150upx;
+				text-align: center;
+				padding: 20upx;
+				font-size: 40upx;
+				color: #FFF;
+				box-shadow: 0 1px 2px rgba(#000, 0.6);
+				background-color: #ff648c;
+				border-radius: 20upx;
+			}
+		}
+	
+		.btn-wrap {
+			margin-top: 20upx;
+			display: flex;
+			justify-content: space-around;
+			width: 100%;
+			padding: 0 60upx;
+	
+			.fsend-btn {
+				// background-color: #0EC52F;
+				font-size: 32upx;
+				color: #FFF;
+				padding: 0 20upx;
+				flex-direction: column;
+	
+				image {
+					width: 80upx;
+					height: 80upx;
+				}
+			}
+	
+			.save-btn {
+				background-color: #FF7E00;
+				border-radius: 10upx;
+				font-size: 32upx;
+				color: #FFF;
+				padding: 0 20upx;
+			}
+		}
 	}
+	
 	
 	.preview-photo-box {
 		position: fixed;
