@@ -51,6 +51,40 @@
 				观看完整视频下次贝壳奖励翻倍
 			</view>
 		</view>
+		
+		<view class="top-three-container">
+			<view class="top-three-cont">
+				<view class="title">贝壳排行榜前三</view>
+				<view class="top-three wrap">
+					<view class="top-item" style="margin-top: 3%;">
+						<view class="avatar avatar2">
+							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqHmueeZYKuacYia8j4bAp6QvdV6QiaEOnbkHrmldib4cWCX0Z9zH9icI0Fw/0" mode="widthFix"></image>
+							<image class='user-img' :src="top[1]&&top[1].user.avatarurl" mode="aspectFill"></image>
+						</view>
+						<view class="user-name text-overflow">{{top[1]&&top[1].user.nickname}}</view>
+						<view class="hot flex-set">{{top[1]&&top[1].point||0}}</view>
+					</view>
+					<view class="top-item">
+						<view class="avatar avatar1">
+							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqh1dCicMH9zslul4jQDl03ibeuBmTKsICIS3b0qpO60uiamrNjakg7AUEA/0" mode="widthFix"></image>
+							<image class='user-img' :src="top[0]&&top[0].user.avatarurl" mode="aspectFill"></image>
+						</view>
+						<view class="user-name text-overflow">{{top[0]&&top[0].user.nickname}}</view>
+						<view class="hot flex-set">{{top[0]&&top[0].point||0}}</view>
+					</view>
+					<view class="top-item" style="margin-top: 6%;">
+						<view class="avatar avatar3">
+							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqboqMXAAOFaApkN81oVuJVgE61VOLl522ZZKMVTMJ4tJhQibIz6GpJNQ/0" mode="widthFix"></image>
+							<image class='user-img' :src="top[2]&&top[2].user.avatarurl" mode="aspectFill"></image>
+						</view>
+						<view class="user-name text-overflow">{{top[2]&&top[2].user.nickname}}</view>
+						<view class="hot flex-set">{{top[2]&&top[2].point||0}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		
+		
 		<modalComponent v-if="modal == 'rule'" type="center" title="抽奖规则" @closeModal="modal=''">
 			<view class="explain-container" style="color: #000000;">
 				<view class="explain-top">
@@ -436,6 +470,96 @@
 			}
 		}
 
-
+		.top-three-container{
+			padding: 20rpx 40rpx;
+			
+			.top-three-cont{
+				width: 100%;
+				background-color: #FFF8FF;
+				color: #000000;
+				display: flex;
+				flex-direction: column;
+				padding: 20rpx;
+				.title{
+					padding: 20rpx 0;
+				}
+				.top-three{
+					padding: 0 30rpx;
+					.top-item{
+						display: flex;
+						flex-direction: column;
+						flex: 1 0%;
+						.avatar {
+							border-radius: 50%;
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+						}
+						
+						.avatar1 {
+							
+							.crown {
+								width: 70rpx;
+							}
+							.user-img {
+								border-radius: 50%;
+								width: 110upx;
+								height: 110upx;
+								border: 7rpx solid #ffde5d;
+								margin-top: -7rpx;
+							}
+						}
+						.avatar2 {
+							
+							.crown {
+								width: 60rpx;
+							}
+							.user-img {
+								border-radius: 50%;
+								width: 100upx;
+								height: 100upx;
+								border: 6rpx solid #e7f1f6;
+								margin-top: -6rpx;
+							}
+						}
+						.avatar3 {
+							
+							.crown {
+								width: 50rpx;
+							}
+							.user-img {
+								border-radius: 50%;
+								width: 90upx;
+								height: 90upx;
+								border: 5rpx solid #ead0ba;
+								margin-top: -5rpx;
+							}
+						}
+						
+						.user-name {
+							margin-top: 10upx;
+							max-width: 160rpx;
+							text-align: center;
+						}
+						
+						.hot {
+							margin-top: 10upx;
+							margin-bottom: 10upx;
+							display: flex;
+							align-items: center;
+							color: #f00f00;
+							font-size: 24rpx;
+							
+						}
+						
+						
+					}
+					
+				}
+			}
+			
+			
+		}
 	}
 </style>
