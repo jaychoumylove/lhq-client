@@ -72,7 +72,6 @@
 			},
 			qrR() {
 				var rate = this.$app.getData('sysInfo').windowWidth / 375 / 2.0
-				let system_info = uni.getSystemInfoSync();
 				let ctx = uni.createCanvasContext('mycanvas');
 				
 				this.getLocalImg(this.cover, src => {
