@@ -95,6 +95,7 @@
 					.right-item {
 						display: flex;
 						align-items: center;
+						flex-direction: column;
 
 						image {
 							width: 40upx;
