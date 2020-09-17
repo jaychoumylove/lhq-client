@@ -12,8 +12,8 @@
 			<view class="right-content">
 				<view class="earn">
 					<view class="right-item">
-						<view class="add-count" :class="{add:item.point>0,del:item.point<0}" v-if="item.type==1">积分：{{item.point>0?'+'+item.point:item.point}}</view>
-						<view class="add-count" :class="{add:item.key_num>0,del:item.key_num<0}" v-if="item.type==2">钥匙：{{item.key_num>0?'+'+item.key_num:item.key_num}}</view>
+						<view class="add-count" :class="{add:item.point>0,del:item.point<0}" v-if="item.point">积分：{{item.point>0?'+'+item.point:item.point}}</view>
+						<view class="add-count" :class="{add:item.key_num>0,del:item.key_num<0}" v-if="item.key_num">钥匙：{{item.key_num>0?'+'+item.key_num:item.key_num}}</view>
 					</view>
 
 				</view>
