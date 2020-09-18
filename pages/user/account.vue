@@ -27,7 +27,7 @@
 			</btnComponent>
 		</view>
 		<view class="bottom-text flex-set">
-			如提现遇到问题，请联系客服，或添加客服微信
+			如提现遇到问题，请<button open-type="contact" :session-from="$app.getData('userInfo').id">联系客服</button>
 		</view>
 	</view>
 </template>
@@ -111,6 +111,9 @@
 		}
 		.bottom-text{
 			color: #999999;
+			button{
+				color: #366092;
+			}
 		}
 	}
 </style>
