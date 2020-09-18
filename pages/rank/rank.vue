@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="top-info">
 			<view class="rewards space-between">
-				<view class="money">2000元</view>
+				<view class="money">{{rankInfo.bonus_pools}}元</view>
 				<view class="rule" @tap="modal='rule'">分红规则</view>
 			</view>
 			<view class="title">今日分红池</view>
@@ -34,7 +34,7 @@
 						</view>
 					</view>
 					<view class="rank-right">
-						<view>{{item.point || '0'}}</view>
+						<view>{{item.point || '0'}}<text style="color: #f00f00;" v-if="rankInfo.top_three_bonus[index]">+{{rankInfo.top_three_bonus[index]}}</text></view>
 					</view>
 				</view>
 			</block>
@@ -66,16 +66,7 @@
 					<view class="explain-rule">分红池收益规则说明</view>
 				</view>
 				<view class="explain-content">
-					<view>1、您可以通过，里的转盘抽奖和签到
-						获得贝壳奖励；</view>
-					<view>2、贝壳兑换比例：1000贝壳=1元（兑换
-						比例受每曰广告收益影响浮动）</view>
-					<view>3、您获得的贝壳将于次日凌晨自动换算成
-						现金红包（只换算10的倍数，剩余个位数贝壳累积的隔天结算） ,计入您的账号钱包
-						中；</view>
-					<view>4、每日对所有用户的贝壳排行，排行靠前的用户将获得额外的现金红包奖励，随着用户的逐步提升，现金奖励的名额也会逐步增加，具体奖励金额以页面为准；</view>
-					<view>5、 若您的贝壳不足300分，暂时不予兑
-						换，累计到隔天结箕。</view>
+					<view v-for="(item,index) in $app.getData('config').bonus_pools_rule" :key="index">{{item}}</view>
 				</view>
 			</view>
 		</modalComponent>

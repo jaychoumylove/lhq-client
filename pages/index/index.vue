@@ -102,10 +102,7 @@
 					<view class="explain-rule">抽奖规则</view>
 				</view>
 				<view class="explain-content">
-					<view>1.转盘总共分8个，每个均有不同贝壳可获得，抽中神秘贝壳可获得神秘大奖；</view>
-					<view>2.启动转盘需要获取钥匙，钥匙不足可在我的页面登录后获取；</view>
-					<view>3.根据获取的贝壳数量，可前往排行页面查看自己的排名及收益情况；</view>
-					<view>4.看一次广告增加一点幸运值，幸运值越高获得高额奖励的概率越高；</view>
+					<view v-for="(item,index) in $app.getData('config').lottery_rule" :key="index">{{item}}</view>
 				</view>
 			</view>
 		</modalComponent>

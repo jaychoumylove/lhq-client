@@ -68,8 +68,7 @@
 					<view class="explain-rule">邀请好友规则说明</view>
 				</view>
 				<view class="explain-content">
-					<view>1、邀请一级好友（直邀好友），即可获得一级好友10%比例的碎片奖励；</view>
-					<view>2、邀请二级好友（扩散好友），即可获得二级好友5%比例的碎片奖励；</view>
+					<view v-for="(item,index) in $app.getData('config').invite_rule" :key="index">{{item}}</view>
 				</view>
 			</view>
 		</modalComponent>
