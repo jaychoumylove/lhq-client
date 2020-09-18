@@ -60,7 +60,9 @@
 		
 		<!-- 视频广告 -->
 		<block v-if="adUnitId">
+			<!-- #ifdef MP-WEIXIN -->
 			<ad style="padding: 20rpx 40rpx;" :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>
+			<!-- #endif -->
 		</block>
 		
 		<view class="top-three-container">
