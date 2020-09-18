@@ -8,7 +8,7 @@
 			<view class="title">今日分红池</view>
 			<view class="top-title space-between">
 				<view class="">榜单</view>
-				<view class="">贝壳（个）+前3分红（元）</view>
+				<view class="">贝壳（个）+前{{rankInfo.top_three_bonus.length || 1}}分红（元）</view>
 			</view>
 		</view>
 
