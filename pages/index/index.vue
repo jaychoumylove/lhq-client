@@ -21,11 +21,11 @@
 		<view class="contribution wrap">
 			<view class="text-cont">
 				<view class="text">今日分红池（元）</view>
-				<view class="count">2000</view>
+				<view class="count">{{$app.getData('config').bonus_pools || 2000}}</view>
 			</view>
 			<view class="text-cont">
 				<view class="text">第一名收益（元）</view>
-				<view class="count">100</view>
+				<view class="count">{{$app.getData('config').top_three_bonus[0] || 100}}</view>
 			</view>
 		</view>
 		
@@ -108,7 +108,26 @@
 				</view>
 			</view>
 		</modalComponent>
+		<!-- 每日消息收益到账提醒 -->
+		<modalComponent v-if="modal == 'dayIncome'" type="center" title="提示" @closeModal="modal=''">
+			<view class="modal-container offline-modal-container">
+				<view class="title">收益到账</view>
+				<!-- <view style="font-size: 24upx;color:#888;">(-1000贝壳)</view> -->
+				<view style="font-size: 24upx;color:#888;">({{notice.extra.point}})</view>
+				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUWa4ibYRGeP9Kkz6Vd4icsiaYpD3ibbGnqhb5tK3xEm7q35pVl5QibibGUtaGkmtvzA5zRlb0Re6VtNvg/0"
+					   mode="aspectFill"></image>
+				<view class="coin-count">+{{notice.extra.balance}}</view>
+				<view class="btn-wrap">
+					<btnComponent type="default">
+						<view class="btn" @tap="modal=''">我知道了</view>
+					</btnComponent>
 
+					<!-- <btnComponent type="success">
+						<view class="btn">去</view>
+					</btnComponent> -->
+				</view>
+			</view>
+		</modalComponent>
 	</view>
 
 </template>
@@ -147,7 +166,7 @@
 				myKeyNum: 0,
 				top: [], // 积分榜前三
 				lucky_num: 0,
-				
+				notice: null,
 			};
 		},
 		onLoad() {
@@ -159,10 +178,14 @@
 		methods: {
 			loadData() {
 				this.$app.request('page/index', {}, res => {
-					const {log, lottery, top, key_num, lucky_num} = res.data;
+					const {log, lottery, top, key_num, lucky_num,notice} = res.data;
 					this.logList = log;
 					this.prizeList = lottery;
 					this.top = top;
+					this.notice = notice;
+					if (this.notice) {
+						this.modal = 'dayIncome';
+					}
 					this.myKeyNum = key_num;
 					this.lucky_num = lucky_num;
 				})
@@ -487,6 +510,135 @@
 					letter-spacing: 5rpx;
 					font-size: 20rpx;
 					text-align: center;
+				}
+			}
+		}
+		
+		.offline-model .btn-wrapper {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+		}
+		
+		.modal-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: -80upx;
+			padding: 40upx;
+		
+			.title {
+				font-size: 36upx;
+				font-weight: 700;
+			}
+		
+			.tips {
+				padding: 20upx;
+			}
+		
+			.coin-count {
+				font-size: 50upx;
+				padding-bottom: 20upx;
+				margin-top: -20upx;
+				font-weight: 700;
+				color: $bg-color-2;
+			}
+		
+			.bg {
+				width: 300upx;
+				height: 300upx;
+			}
+		
+			.btn {
+				padding: 10upx 30upx;
+				font-size: 30upx;
+				font-weight: 600;
+			}
+		
+			.btn.s {
+				padding: 5upx 20upx;
+				font-size: 30upx;
+			}
+		
+			.btn-wrap {
+				margin: 10upx 0;
+				text-align: center;
+				display: flex;
+				width: 100%;
+				justify-content: space-around;
+				padding: 0 20upx;
+			}
+		
+			.desc {
+				padding-top: 10upx;
+			}
+		
+			.row {
+				width: 100%;
+				padding: 10upx 20upx;
+		
+				.top {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					height: 60upx;
+		
+					.left {
+						font-weight: 600;
+						border-left: 8upx solid $bg-color-2;
+						padding: 0 20upx;
+						line-height: 1.2;
+					}
+		
+					.right {
+						padding: 5upx 20upx;
+					}
+				}
+			}
+		
+			.btn-row-wrap {
+				position: relative;
+		
+				.tips-btn {
+					position: absolute;
+					top: 50%;
+					transform: translateY(-50%);
+					right: -100upx;
+				}
+			}
+		
+			.skill2-count {
+				margin: 20upx;
+				font-weight: 700;
+				color: #888;
+			}
+		
+		
+			.rate-list-wrap {
+				width: 100%;
+		
+				.item {
+					margin: 10upx 0;
+					padding: 5upx 10upx;
+					padding-left: 20upx;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					background-color: #816acd;
+					border-radius: 30upx;
+					color: #fff;
+		
+					.right-wrap {
+						margin: 5upx 0;
+						border-radius: 30upx;
+						padding: 5upx 20upx;
+						background-color: #e2def2;
+						color: #816acd;
+					}
+		
+					.rate-num.in {
+						color: orange;
+					}
 				}
 			}
 		}
