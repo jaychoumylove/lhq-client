@@ -59,9 +59,9 @@
 		</view>
 		
 		<!-- 视频广告 -->
-		<!-- #ifdef MP-WEIXIN -->
-		<ad style="padding: 20rpx 40rpx;" :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>
-		<!-- #endif -->
+		<block v-if="adUnitId">
+			<ad style="padding: 20rpx 40rpx;" :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>
+		</block>
 		
 		<view class="top-three-container">
 			<view class="top-three-cont">
