@@ -173,6 +173,7 @@
 		},
 		methods: {
 			loadData() {
+				this.modal = '';
 				this.$app.request('page/index', {}, res => {
 					const {log, lottery, top, key_num, lucky_num,notice} = res.data;
 					this.logList = log;
