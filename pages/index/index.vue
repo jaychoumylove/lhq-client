@@ -114,9 +114,9 @@
 				<view class="title">收益到账</view>
 				<!-- <view style="font-size: 24upx;color:#888;">(-1000贝壳)</view> -->
 				<view style="font-size: 24upx;color:#888;">({{notice.extra.point}}贝壳)</view>
-				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUWa4ibYRGeP9Kkz6Vd4icsiaYpD3ibbGnqhb5tK3xEm7q35pVl5QibibGUtaGkmtvzA5zRlb0Re6VtNvg/0"
+				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F056CiczhEMMIWmRUP6Dfjb7Ao9dicjx5G4pvGmg3PTs1OAg02QFnlxHWZsPPu38IWaq5Dh1c56mww/0"
 					   mode="aspectFill"></image>
-				<view class="coin-count">+{{notice.extra.balance}}</view>
+				<view class="coin-count">￥+{{notice.extra.balance}}</view>
 				<view class="btn-wrap">
 					<btnComponent type="default">
 						<view class="btn" @tap="modal=''">我知道了</view>
@@ -509,17 +509,12 @@
 				}
 			}
 		}
-		
-		.offline-model .btn-wrapper {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-around;
-		}
-		.offline-model {
+	
+		.offline-modal-container {
 			.title {
 				color: black;
 			}
-		}
+		}	
 		
 		.modal-container {
 			display: flex;
