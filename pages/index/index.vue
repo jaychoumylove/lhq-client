@@ -173,6 +173,7 @@
 		},
 		methods: {
 			loadData() {
+				this.modal = '';
 				this.$app.request('page/index', {}, res => {
 					const {log, lottery, top, key_num, lucky_num,notice} = res.data;
 					this.logList = log;
@@ -192,6 +193,9 @@
 			lotterStar() {
 				if(!this.$app.getData('userInfo')['avatarurl']){
 					this.$app.toast('请点击个人中心-头像完善身份信息')
+					setTimeout(() => {
+						this.$app.goPage('/pages/user/user')
+					}, 500)	
 					return ;
 				} 
 				let lotterIn = this.lotterIn;
