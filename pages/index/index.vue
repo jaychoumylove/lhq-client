@@ -113,7 +113,7 @@
 			<view class="modal-container offline-modal-container">
 				<view class="title">收益到账</view>
 				<!-- <view style="font-size: 24upx;color:#888;">(-1000贝壳)</view> -->
-				<view style="font-size: 24upx;color:#888;">({{notice.extra.point}})</view>
+				<view style="font-size: 24upx;color:#888;">({{notice.extra.point}}贝壳)</view>
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9HUWa4ibYRGeP9Kkz6Vd4icsiaYpD3ibbGnqhb5tK3xEm7q35pVl5QibibGUtaGkmtvzA5zRlb0Re6VtNvg/0"
 					   mode="aspectFill"></image>
 				<view class="coin-count">+{{notice.extra.balance}}</view>
@@ -121,10 +121,6 @@
 					<btnComponent type="default">
 						<view class="btn" @tap="modal=''">我知道了</view>
 					</btnComponent>
-
-					<!-- <btnComponent type="success">
-						<view class="btn">去</view>
-					</btnComponent> -->
 				</view>
 			</view>
 		</modalComponent>
@@ -518,6 +514,11 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-around;
+		}
+		.offline-model {
+			.title {
+				color: black;
+			}
 		}
 		
 		.modal-container {
