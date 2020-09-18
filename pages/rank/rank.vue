@@ -93,6 +93,8 @@
 			};
 		},
 		onShow() {
+			this.page = 1;
+			this.userRank = [],
 			this.loadData()
 			this.$app.openInterstitialAd()
 		},

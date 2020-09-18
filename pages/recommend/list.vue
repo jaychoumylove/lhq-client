@@ -100,10 +100,10 @@
 				}
 			};
 		},
-		onLoad(option) {
-			this.loadData()
-		},
 		onShow() {
+			this.page = 1;
+			this.userRank = [],
+			this.loadData()
 			this.$app.openInterstitialAd()
 		},
 		onShareAppMessage(e) {
@@ -117,6 +117,7 @@
 		methods: {
 			switchAct(current) {
 				this.page = 1
+				this.userRank = [],
 				this.current = current
 				this.getRankList()
 			},
