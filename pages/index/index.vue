@@ -230,6 +230,12 @@
 							}, 1000)
 						}, 1000)
 					}, 1000)
+				}, 'POST', true, (res) => {
+					// console.info(res);
+					this.lotterIn = false;
+					if (res.hasOwnProperty('msg')) {
+						return this.$app.toast(res.msg);
+					}
 				})
 			},
 			//抽奖过程奖品切换
