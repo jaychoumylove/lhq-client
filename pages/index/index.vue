@@ -58,6 +58,11 @@
 			</view>
 		</view>
 		
+		<!-- 视频广告 -->
+		<!-- #ifdef MP-WEIXIN -->
+		<ad style="padding: 20rpx 40rpx;" :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>
+		<!-- #endif -->
+		
 		<view class="top-three-container">
 			<view class="top-three-cont">
 				<view class="title">贝壳排行榜前三</view>
@@ -119,6 +124,9 @@
 		},
 		data() {
 			return {
+				// #ifdef MP-WEIXIN
+				adUnitId: this.$app.videoAd_adUnitId,
+				// #endif
 				header: '',
 				modal: '',
 				lottery_value: 0, //幸运值
@@ -158,7 +166,6 @@
 					this.top = top;
 					this.myKeyNum = key_num;
 					this.lucky_num = lucky_num;
-					
 				})
 			},
 			explain() {
@@ -178,7 +185,9 @@
 				}
 				if (this.myKeyNum < 1) {
 					this.lotterIn = false;
-					return this.$app.toast('没有钥匙了');
+					return this.$app.modal(`没有钥匙了，去获得钥匙吧`, () => {
+						this.$app.goPage('/pages/user/user')
+					}, '确定')
 				}
 				this.$app.request('bill/lottery', {}, res => {
 					this.lotterChange = null, //抽奖过程KEY

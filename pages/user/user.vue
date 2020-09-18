@@ -60,6 +60,13 @@
 				</view>
 			</button>
 		</view>
+		<!-- #ifdef MP-WEIXIN -->
+		<!-- <ad :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>	//视频广告-->
+		<ad :unit-id="adUnitId" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+		<!-- #endif -->
+		<!-- #ifdef MP-QQ -->		
+		<ad :unit-id="adUnitId"></ad>
+		<!-- #endif -->
 		
 		<view class="task-container">
 			<view class="task-title">常规任务</view>
@@ -136,6 +143,12 @@
 		},
 		data() {
 			return {
+				// #ifdef MP-WEIXIN
+				adUnitId: this.$app.gridAd_adUnitId,
+				// #endif
+				// #ifdef MP-QQ				
+				adUnitId: this.$app.qq_bannerAdUnitId,
+				// #endif
 				userInfo: {},
 				userCurrency: {},
 				userID: '',

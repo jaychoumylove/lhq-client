@@ -103,6 +103,7 @@
 		},
 		onShow() {
 			this.loadData()
+			this.$app.openInterstitialAd()
 		},
 		onReachBottom() {
 			this.page++
