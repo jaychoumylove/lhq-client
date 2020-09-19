@@ -14,7 +14,7 @@
 						</swiper-item>
 					</swiper>
 				</view>
-				
+
 			</view>
 			<view class="lotter-rule" @tap="modal='rule'">规则说明</view>
 		</view>
@@ -28,7 +28,7 @@
 				<view class="count">{{$app.getData('config').top_three_bonus[0] || 100}}</view>
 			</view>
 		</view>
-		
+
 		<view style="text-align: center; font-size: 28rpx; color: #FBCC3E; padding-top: 10rpx;">
 			<view>
 				今日幸运值为{{lucky_num}}点
@@ -44,7 +44,10 @@
 					</view>
 				</block>
 			</view>
-			<view class="lottery-value" @tap="lotterStar">
+			<view class="lottery-value" @tap="isAccept" v-if="is_accept==0">
+				<view class="lotter-value-now">立即抽奖</view>
+			</view>
+			<view class="lottery-value" @tap="lotterStar" v-if="is_accept==1">
 				<view class="lotter-value-now">立即抽奖</view>
 			</view>
 		</view>
@@ -57,21 +60,22 @@
 				{{'>>'}}点击观看完整视频下次贝壳奖励翻倍{{'<<'}}
 			</view>
 		</view>
-		
+
 		<!-- 视频广告 -->
 		<block v-if="adUnitId">
 			<!-- #ifdef MP-WEIXIN -->
 			<ad style="padding: 20rpx 40rpx;" :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>
 			<!-- #endif -->
 		</block>
-		
+
 		<view class="top-three-container">
 			<view class="top-three-cont">
 				<view class="title">贝壳排行榜前三</view>
 				<view class="top-three wrap">
 					<view class="top-item" style="margin-top: 3%;">
 						<view class="avatar avatar2">
-							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqHmueeZYKuacYia8j4bAp6QvdV6QiaEOnbkHrmldib4cWCX0Z9zH9icI0Fw/0" mode="widthFix"></image>
+							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqHmueeZYKuacYia8j4bAp6QvdV6QiaEOnbkHrmldib4cWCX0Z9zH9icI0Fw/0"
+							 mode="widthFix"></image>
 							<image class='user-img' :src="top[1]&&top[1].user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						</view>
 						<view class="user-name text-overflow">{{top[1]&&top[1].user.nickname || $app.getData('NICKNAME')}}</view>
@@ -79,7 +83,8 @@
 					</view>
 					<view class="top-item">
 						<view class="avatar avatar1">
-							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqh1dCicMH9zslul4jQDl03ibeuBmTKsICIS3b0qpO60uiamrNjakg7AUEA/0" mode="widthFix"></image>
+							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqh1dCicMH9zslul4jQDl03ibeuBmTKsICIS3b0qpO60uiamrNjakg7AUEA/0"
+							 mode="widthFix"></image>
 							<image class='user-img' :src="top[0]&&top[0].user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						</view>
 						<view class="user-name text-overflow">{{top[0]&&top[0].user.nickname || $app.getData('NICKNAME')}}</view>
@@ -87,7 +92,8 @@
 					</view>
 					<view class="top-item" style="margin-top: 6%;">
 						<view class="avatar avatar3">
-							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqboqMXAAOFaApkN81oVuJVgE61VOLl522ZZKMVTMJ4tJhQibIz6GpJNQ/0" mode="widthFix"></image>
+							<image class='crown' src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9FmibDk8LrMNNib025upafEqqboqMXAAOFaApkN81oVuJVgE61VOLl522ZZKMVTMJ4tJhQibIz6GpJNQ/0"
+							 mode="widthFix"></image>
 							<image class='user-img' :src="top[2]&&top[2].user.avatarurl || $app.getData('AVATAR')" mode="aspectFill"></image>
 						</view>
 						<view class="user-name text-overflow">{{top[2]&&top[2].user.nickname || $app.getData('NICKNAME')}}</view>
@@ -96,8 +102,8 @@
 				</view>
 			</view>
 		</view>
-		
-		
+
+
 		<modalComponent v-if="modal == 'rule'" type="center" title="抽奖规则" @closeModal="modal=''">
 			<view class="explain-container" style="color: #000000;">
 				<view class="explain-top">
@@ -115,7 +121,7 @@
 				<!-- <view style="font-size: 24upx;color:#888;">(-1000贝壳)</view> -->
 				<view style="font-size: 24upx;color:#888;">({{notice.extra.point}}贝壳)</view>
 				<image class="bg" src="https://mmbiz.qpic.cn/mmbiz_png/w5pLFvdua9F056CiczhEMMIWmRUP6Dfjb7Ao9dicjx5G4pvGmg3PTs1OAg02QFnlxHWZsPPu38IWaq5Dh1c56mww/0"
-					   mode="aspectFill"></image>
+				 mode="aspectFill"></image>
 				<view class="coin-count">￥+{{notice.extra.balance}}</view>
 				<view class="btn-wrap">
 					<btnComponent type="default">
@@ -146,7 +152,7 @@
 				lottery_value: 0, //幸运值
 				lottery_times: 0, //已抽奖次数
 				lottery_count: 0, //初次查询剩余抽奖次数
-				prizeList: [],// 奖池
+				prizeList: [], // 奖池
 				boxList: '',
 				logList: [], // 将次抽取滚动记录
 				prizeResult: '', //抽奖结果KEY
@@ -163,6 +169,7 @@
 				top: [], // 积分榜前三
 				lucky_num: 0,
 				notice: null,
+				is_accept: 0,
 			};
 		},
 		onLoad() {
@@ -175,7 +182,15 @@
 			loadData() {
 				this.modal = '';
 				this.$app.request('page/index', {}, res => {
-					const {log, lottery, top, key_num, lucky_num,notice} = res.data;
+					const {
+						log,
+						lottery,
+						top,
+						key_num,
+						lucky_num,
+						notice,
+						is_accept
+					} = res.data;
 					this.logList = log;
 					this.prizeList = lottery;
 					this.top = top;
@@ -185,19 +200,35 @@
 					}
 					this.myKeyNum = key_num;
 					this.lucky_num = lucky_num;
+					this.is_accept = is_accept;
+					
 				})
 			},
 			explain() {
 				this.modal = 'explain';
 			},
+			isAccept(){
+				let that =this
+				uni.requestSubscribeMessage({
+					tmplIds: ['7mcxD-zXtsLgf1zbW5luoxA62iWtvP_dBcOla_wH0sI'],
+					success(res) {
+						that.$app.request('page/is_accept', {}, res => {})
+						that.is_accept=1;
+					}
+				})
+				
+				
+			},
 			lotterStar() {
-				if(!this.$app.getData('userInfo')['avatarurl']){
+
+				if (!this.$app.getData('userInfo')['avatarurl']) {
 					this.$app.toast('请点击个人中心-头像完善身份信息')
 					setTimeout(() => {
 						this.$app.goPage('/pages/user/user')
-					}, 500)	
-					return ;
-				} 
+					}, 500)
+					return;
+				}
+				
 				let lotterIn = this.lotterIn;
 				if (lotterIn) {
 					this.$app.toast('你点击的太快了')
@@ -213,7 +244,7 @@
 				}
 				this.$app.request('bill/lottery', {}, res => {
 					this.lotterChange = null, //抽奖过程KEY
-					this.prizeResult = null; //抽奖结果KEY
+						this.prizeResult = null; //抽奖结果KEY
 					this.prizeName = null; //抽奖结果KEY对应的奖品名称
 
 					let This = this;
@@ -229,7 +260,7 @@
 							setTimeout(function() {
 
 								This.prizeResult = res.data.index,
-								This.prizeName = res.data.reward.desc
+									This.prizeName = res.data.reward.desc
 								This.loadData();
 							}, 1000)
 						}, 1000)
@@ -262,9 +293,9 @@
 			openVideoLottery() {
 				this.$app.openVideoAd(() => {
 					this.lotteryBuriedPoint()
-				},this.$app.getData('config').kindness_switch)
+				}, this.$app.getData('config').kindness_switch)
 			},
-			lotteryBuriedPoint(){
+			lotteryBuriedPoint() {
 				this.$app.request('bill/double', {}, res => {})
 			}
 		}
@@ -298,21 +329,24 @@
 				background: linear-gradient(90deg, #D807CA, #3E2378);
 				margin-right: 60rpx;
 				flex-direction: row;
-				
+
 				.trumpet {
 					width: 40rpx;
 					height: 40rpx;
 					padding: 5rpx;
 					margin: 5rpx 10rpx;
 				}
-				.get-danmu{
+
+				.get-danmu {
 					flex: 1 0%;
 					overflow: hidden;
-					.swiper-item{
+
+					.swiper-item {
 						width: 100%;
 						display: flex;
 						flex-direction: row;
-						.item-text{
+
+						.item-text {
 							width: 100%;
 							display: flex;
 							flex-direction: row;
@@ -320,7 +354,7 @@
 							text-overflow: ellipsis;
 							white-space: nowrap;
 						}
-						
+
 					}
 				}
 			}
@@ -519,29 +553,29 @@
 				}
 			}
 		}
-	
+
 		.offline-modal-container {
 			.title {
 				color: black;
 			}
-		}	
-		
+		}
+
 		.modal-container {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			margin-top: -80upx;
 			padding: 40upx;
-		
+
 			.title {
 				font-size: 36upx;
 				font-weight: 700;
 			}
-		
+
 			.tips {
 				padding: 20upx;
 			}
-		
+
 			.coin-count {
 				font-size: 50upx;
 				padding-bottom: 20upx;
@@ -549,23 +583,23 @@
 				font-weight: 700;
 				color: $bg-color-2;
 			}
-		
+
 			.bg {
 				width: 300upx;
 				height: 300upx;
 			}
-		
+
 			.btn {
 				padding: 10upx 30upx;
 				font-size: 30upx;
 				font-weight: 600;
 			}
-		
+
 			.btn.s {
 				padding: 5upx 20upx;
 				font-size: 30upx;
 			}
-		
+
 			.btn-wrap {
 				margin: 10upx 0;
 				text-align: center;
@@ -574,37 +608,37 @@
 				justify-content: space-around;
 				padding: 0 20upx;
 			}
-		
+
 			.desc {
 				padding-top: 10upx;
 			}
-		
+
 			.row {
 				width: 100%;
 				padding: 10upx 20upx;
-		
+
 				.top {
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
 					height: 60upx;
-		
+
 					.left {
 						font-weight: 600;
 						border-left: 8upx solid $bg-color-2;
 						padding: 0 20upx;
 						line-height: 1.2;
 					}
-		
+
 					.right {
 						padding: 5upx 20upx;
 					}
 				}
 			}
-		
+
 			.btn-row-wrap {
 				position: relative;
-		
+
 				.tips-btn {
 					position: absolute;
 					top: 50%;
@@ -612,17 +646,17 @@
 					right: -100upx;
 				}
 			}
-		
+
 			.skill2-count {
 				margin: 20upx;
 				font-weight: 700;
 				color: #888;
 			}
-		
-		
+
+
 			.rate-list-wrap {
 				width: 100%;
-		
+
 				.item {
 					margin: 10upx 0;
 					padding: 5upx 10upx;
@@ -633,7 +667,7 @@
 					background-color: #816acd;
 					border-radius: 30upx;
 					color: #fff;
-		
+
 					.right-wrap {
 						margin: 5upx 0;
 						border-radius: 30upx;
@@ -641,7 +675,7 @@
 						background-color: #e2def2;
 						color: #816acd;
 					}
-		
+
 					.rate-num.in {
 						color: orange;
 					}
@@ -649,25 +683,29 @@
 			}
 		}
 
-		.top-three-container{
+		.top-three-container {
 			padding: 20rpx 40rpx;
-			
-			.top-three-cont{
+
+			.top-three-cont {
 				width: 100%;
 				background-color: #FFF8FF;
 				color: #000000;
 				display: flex;
 				flex-direction: column;
 				padding: 20rpx;
-				.title{
+
+				.title {
 					padding: 20rpx 0;
 				}
-				.top-three{
+
+				.top-three {
 					padding: 0 30rpx;
-					.top-item{
+
+					.top-item {
 						display: flex;
 						flex-direction: column;
 						flex: 1 0%;
+
 						.avatar {
 							border-radius: 50%;
 							display: flex;
@@ -675,12 +713,13 @@
 							justify-content: center;
 							align-items: center;
 						}
-						
+
 						.avatar1 {
-							
+
 							.crown {
 								width: 70rpx;
 							}
+
 							.user-img {
 								border-radius: 50%;
 								width: 110upx;
@@ -689,11 +728,13 @@
 								margin-top: -7rpx;
 							}
 						}
+
 						.avatar2 {
-							
+
 							.crown {
 								width: 60rpx;
 							}
+
 							.user-img {
 								border-radius: 50%;
 								width: 100upx;
@@ -702,11 +743,13 @@
 								margin-top: -6rpx;
 							}
 						}
+
 						.avatar3 {
-							
+
 							.crown {
 								width: 50rpx;
 							}
+
 							.user-img {
 								border-radius: 50%;
 								width: 90upx;
@@ -715,13 +758,13 @@
 								margin-top: -5rpx;
 							}
 						}
-						
+
 						.user-name {
 							margin-top: 10upx;
 							max-width: 160rpx;
 							text-align: center;
 						}
-						
+
 						.hot {
 							margin-top: 10upx;
 							margin-bottom: 10upx;
@@ -729,16 +772,16 @@
 							align-items: center;
 							color: #f00f00;
 							font-size: 24rpx;
-							
+
 						}
-						
-						
+
+
 					}
-					
+
 				}
 			}
-			
-			
+
+
 		}
 	}
 </style>
