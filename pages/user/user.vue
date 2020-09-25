@@ -168,6 +168,7 @@
 				id: this.$app.getData('userInfo')['id'] || '123456',
 			}
 			this.loadData();
+			this.$app.openInterstitialAd()
 		},
 		onShareAppMessage(e) {
 			const shareType = e.target && e.target.dataset.share

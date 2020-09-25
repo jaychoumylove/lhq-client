@@ -64,7 +64,9 @@
 		<!-- 视频广告 -->
 		<block v-if="adUnitId">
 			<!-- #ifdef MP-WEIXIN -->
-			<ad style="padding: 20rpx 40rpx;" :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>
+			<view style="padding: 20rpx 40rpx;width: 100%;">
+				<ad :unit-id="adUnitId" ad-type="video" ad-theme="white"></ad>
+			</view>
 			<!-- #endif -->
 		</block>
 
@@ -177,6 +179,7 @@
 		},
 		onShow() {
 			this.loadData();
+			this.$app.openInterstitialAd()
 		},
 		methods: {
 			loadData() {

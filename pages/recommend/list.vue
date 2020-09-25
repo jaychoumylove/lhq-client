@@ -1,5 +1,13 @@
 <template>
 	<view class="container">
+		<block v-if="adUnitId">
+			<!-- #ifdef MP-WEIXIN -->
+			<ad :unit-id="adUnitId" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+			<!-- #endif -->
+			<!-- #ifdef MP-QQ -->		
+			<ad :unit-id="adUnitId"></ad>
+			<!-- #endif -->
+		</block>
 		<view class="top-info">
 			<view class="contribution wrap">
 				<view class="text-cont">
@@ -18,7 +26,7 @@
 			<view class="select space-between">
 				<view class="current" :class='{active:current==0}' @tap="switchAct(0)">直邀好友</view>
 				<view class="current" :class='{active:current==1}' @tap="switchAct(1)">扩散好友</view>
-				<view class="rule flex-set" @tap="modal='rule'">邀请好友规则</view>
+				<view class="rule flex-set animation" @tap="modal='rule'">邀请好友规则</view>
 			</view>
 			<view class="top-title space-between">
 				<view class="">用户</view>
@@ -85,6 +93,12 @@
 		},
 		data() {
 			return {
+				// #ifdef MP-WEIXIN
+				adUnitId: this.$app.gridAd_adUnitId,
+				// #endif
+				// #ifdef MP-QQ				
+				adUnitId: this.$app.qq_bannerAdUnitId,
+				// #endif
 				userRank: [],
 				page: 1,
 				current: 0,

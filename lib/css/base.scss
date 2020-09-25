@@ -152,6 +152,33 @@ input {
 	margin: 16upx;
 
 }
+		.animation{
+			animation: mymove 3s infinite;
+			animation-direction: alternate;
+			/*轮流反向播放动画。*/
+			animation-timing-function: ease-in-out;
+		}
+		
+		@keyframes mymove {
+			0% {
+				transform: scale(1);
+				/*开始为原始大小*/
+			}
+		
+			25% {
+				transform: scale(1.1);
+				/*放大1.1倍*/
+			}
+		
+			50% {
+				transform: scale(1);
+			}
+		
+			75% {
+				transform: scale(1.1);
+			}
+		
+		}
 		.explain-container {
 		
 			.explain-top {
