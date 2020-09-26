@@ -50,6 +50,10 @@
 		onShow() {
 			this.getBillState();
 		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.share
+			return this.$app.commonShareAppMessage(shareType)
+		},
 		methods:{
 			getBillState() {
 				this.$app.request("page/bill", {}, res => {

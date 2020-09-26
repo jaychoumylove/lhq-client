@@ -74,7 +74,7 @@
 			<view class="task-sign">
 				<view class="task-sign-title"><text>签到任务</text>签到赠送贝壳</view>
 				<view class="task-sign-list">
-					<view class="sign-item" v-for="(item, index) in signTask" :key="index" @tap="taskSignSettle(index)">
+					<view class="sign-item" v-for="(item, index) in signTask" :key="index" @tap="taskSignSettleOpen(index)">
 						<view class="count flex-set" :class="{active: item.status > -1,animation: item.status == 0}">+{{item.reward.point}}</view>
 						<view class="sign-day" :class="{active: item.status > -1}">第{{item.number}}天</view>
 					</view>
@@ -115,7 +115,7 @@
 							</block>
 							<block v-if="item.type == 'INVITE'">
 								<btnComponent type="default" v-if="!item.able_settle">
-									<button class="btn" open-type="share" :data-share="item.extra.shareid">
+									<button class="btn" open-type="share" :data-share="item.extra.share_id">
 										<view class="flex-set" style="width: 130upx;height: 60upx;">
 											{{item.btn_text||'去领取'}}
 										</view>
@@ -229,7 +229,7 @@
 					}, 'POST', true)
 				}
 			},
-			taskSignSettle(index) {
+			taskSignSettleOpen(index) {
 				if(!this.$app.getData('userInfo')['avatarurl']){
 					this.$app.toast('请点击左上角头像完善身份信息')
 					return ;
@@ -245,10 +245,14 @@
 				if (item.status != 0) {
 					return;
 				}
-				uni.showLoading({
-					mask:true,
-					title:"签到中..."
-				});
+				this.$app.modal(`观看广告可以签到`, () => {
+					this.$app.openVideoAd(() => {
+						this.taskSignSettle(index)
+					})
+				}, '确认签到')
+			},
+			taskSignSettle(index) {
+				const item = this.signTask[index];
 				this.$app.request('task/settle', {type: item.type}, res => {
 					this.signTask[index].status = 1;
 					let msg = `恭喜获得${res.data.point}贝壳`;
@@ -282,7 +286,7 @@
 			openVideoSettle(index) {
 				this.$app.openVideoAd(() => {
 					this.taskKeySetttle(index)
-				},this.$app.getData('config').kindness_switch)
+				})
 			}
 		}
 	}

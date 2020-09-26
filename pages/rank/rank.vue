@@ -102,6 +102,10 @@
 			this.page++
 			this.rankList()
 		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.share
+			return this.$app.commonShareAppMessage(shareType)
+		},
 		methods: {
 			loadData() {
 				this.rankList()

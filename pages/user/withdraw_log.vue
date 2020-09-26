@@ -45,6 +45,10 @@
 			this.page++
 			this.getLog()
 		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.share
+			return this.$app.commonShareAppMessage(shareType)
+		},
 		methods: {
 			getLog() {
 				this.$app.request('page/withdraw_log', {

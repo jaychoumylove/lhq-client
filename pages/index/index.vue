@@ -178,6 +178,10 @@
 		onShow() {
 			this.loadData();
 		},
+		onShareAppMessage(e) {
+			const shareType = e.target && e.target.dataset.share
+			return this.$app.commonShareAppMessage(shareType)
+		},
 		methods: {
 			loadData() {
 				this.modal = '';
