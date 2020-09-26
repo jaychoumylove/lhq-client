@@ -1,9 +1,17 @@
 <template>
 	<view class="container">
+		<block v-if="adUnitId">
+			<!-- #ifdef MP-WEIXIN -->
+			<ad :unit-id="adUnitId" ad-type="grid" grid-opacity="0.8" grid-count="5" ad-theme="white"></ad>
+			<!-- #endif -->
+			<!-- #ifdef MP-QQ -->		
+			<ad :unit-id="adUnitId"></ad>
+			<!-- #endif -->
+		</block>
 		<view class="top-info">
 			<view class="rewards space-between">
 				<view class="money">{{rankInfo.bonus_pools}}元</view>
-				<view class="rule" @tap="modal='rule'">分红规则</view>
+				<view class="rule animation" @tap="modal='rule'">分红规则</view>
 			</view>
 			<view class="title">今日分红池</view>
 			<view class="top-title space-between">
@@ -83,6 +91,12 @@
 		},
 		data() {
 			return {
+				// #ifdef MP-WEIXIN
+				adUnitId: this.$app.gridAd_adUnitId,
+				// #endif
+				// #ifdef MP-QQ				
+				adUnitId: this.$app.qq_bannerAdUnitId,
+				// #endif
 				userRank: [],
 				page: 1,
 				modal: '',
