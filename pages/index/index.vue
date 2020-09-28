@@ -154,6 +154,7 @@
 				lottery_value: 0, //幸运值
 				lottery_times: 0, //已抽奖次数
 				lottery_count: 0, //初次查询剩余抽奖次数
+				lottery_double_count: 0, //看视频双倍埋点次数
 				prizeList: [], // 奖池
 				boxList: '',
 				logList: [], // 将次抽取滚动记录
@@ -249,13 +250,29 @@
 						this.$app.goPage('/pages/user/user')
 					}, '确定')
 				}
+				if (this.lottery_double_count < 1) {
+					this.$app.modal(`观看广告可以领取双倍奖励`, () => {
+						this.lotterIn = false;
+						this.openVideoLottery();
+					}, '观看视频', () => {
+						this.lotteryAction();
+					}, "继续抽奖")
+				} else {
+					this.lotteryAction();
+				}
+			},
+			lotteryAction () {
 				this.$app.request('bill/lottery', {}, res => {
 					this.lotterChange = null, //抽奖过程KEY
-						this.prizeResult = null; //抽奖结果KEY
+					this.prizeResult = null; //抽奖结果KEY
 					this.prizeName = null; //抽奖结果KEY对应的奖品名称
-
+					
+					if (this.lottery_double_count > 1) {
+						this.lottery_double_count = this.lottery_double_count - 1;
+					}
+				
 					let This = this;
-
+				
 					clearInterval(This.timer);
 					This.timer = setInterval(This.changePrize, 40);
 					setTimeout(function() {
@@ -265,9 +282,9 @@
 							clearInterval(This.timer);
 							This.timer = setInterval(This.changePrize, 150);
 							setTimeout(function() {
-
 								This.prizeResult = res.data.index,
-									This.prizeName = res.data.reward.desc
+								This.prizeName = res.data.reward.desc
+								This.lotterIn = false;
 								This.loadData();
 							}, 1000)
 						}, 1000)
@@ -280,6 +297,7 @@
 					}
 				})
 			},
+			
 			//抽奖过程奖品切换
 			changePrize() {
 				let lotterChange = this.lotterChange;
@@ -300,10 +318,12 @@
 			openVideoLottery() {
 				this.$app.openVideoAd(() => {
 					this.lotteryBuriedPoint()
-				}, this.$app.getData('config').kindness_switch)
+				})
 			},
 			lotteryBuriedPoint() {
-				this.$app.request('bill/double', {}, res => {})
+				this.$app.request('bill/double', {}, res => {
+					this.lottery_double_count = this.lottery_double_count + 1;
+				})
 			}
 		}
 	}
